@@ -14,12 +14,25 @@ public class Util {
 	return typedText;
 
 	}
+	
+	public void writeConsole(String texto) {
+		System.out.print(texto);
+		}
 
 	public Integer readConsoleInt(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(texto);
 		Integer typedText = read.nextInt();
+
+		return typedText;
+	}
+	
+	public Double readConsoleDouble(String texto) {
+		@SuppressWarnings("resource")
+		Scanner read = new Scanner(System.in);
+		System.out.print(texto);
+		Double typedText = read.nextDouble();
 
 		return typedText;
 	}

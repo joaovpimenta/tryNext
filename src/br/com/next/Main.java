@@ -35,6 +35,8 @@ public class Main {
 			break;
 		}*/
 		
+		System.out.println("teste commit com git gui");
+		
 	}
 
 }

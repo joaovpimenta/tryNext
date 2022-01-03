@@ -37,4 +37,13 @@ public class Util {
 		return typedText;
 	}
 
+	public Double writeConsole(Double saldo) {
+		@SuppressWarnings("resource")
+		Scanner read = new Scanner(System.in);
+		System.out.print(saldo);
+		double typedText = read.nextDouble();
+
+		return typedText;
+	}
+
 }

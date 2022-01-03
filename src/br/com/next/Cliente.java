@@ -21,6 +21,22 @@ public class Cliente {
 		util.writeConsole("Cadastro realizado com sucesso!\n");
 	}
 
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public TipoCliente getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoCliente tipo) {
+		this.tipo = tipo;
+	}
+
 	public String getNome() {
 		return nome;
 	}

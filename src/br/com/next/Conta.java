@@ -28,20 +28,37 @@ public class Conta {
 
 	public void saque() {
 
-		Double valor = util.readConsoleDouble("Digite o valor do saque: R$");
-		while (this.saldo < valor) {
-			valor = util.readConsoleDouble("Saldo insuficiente! Tente novamente: R$");
+		Double valorSaque = util.readConsoleDouble("Digite o valor do saque: R$");
+		while (this.saldo < valorSaque) {
+			valorSaque = util.readConsoleDouble("Saldo insuficiente! Tente novamente: R$");
 		}
+		this.saldo -= valorSaque;
 
 	}
 
 	public void transferir() {
+
+		Double valorTransferencia = util.readConsoleDouble("Qual valor deseja transferir? R$");
+		if (this.saldo > valorTransferencia) {
+			this.saldo -= valorTransferencia;
+			util.writeConsole("Transferência Realizada com sucesso!\n");
+		} else {
+			util.writeConsole("O valor informado é superior ao seu saldo atual.\n");
+		}
+		util.writeConsole("Saldo atual: R$" + this.saldo + "\n");
+
 	}
 
 	public void depositar() {
+
+		Double valorDeposito = util.readConsoleDouble("Qual valor deseja depositar? R$");
+		this.saldo += valorDeposito;
+		util.writeConsole("\nSaldo atual: R$" + this.saldo + "\n");
 	}
 
 	public void consultarSaldo() {
+		
+		util.writeConsole("Cliente: " + this.cliente.getNome() + "\nConta: " + this.numeroConta + "\nCPF: " + this.cliente.getCpf() + "\nSaldo Atual: " + this.saldo + "\n");
 	}
 
 }

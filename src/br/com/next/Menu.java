@@ -10,28 +10,50 @@ public class Menu {
 		Cliente cliente = new Cliente();
 		Conta conta = new Conta();
 
-		int i;
+		int i = 0;
 
-		i = util.readConsoleInt("Seja bem vindo, o que deseja fazer?\n" + "1 - Cadastrar Novo Cliente\n"
-				+ "2 - Cadastrar Conta\n" + "3 - \n" + "4 - \n" + "5 - \n");
+		while (i != 10) {
 
-		switch (i) {
-		case 1:
+			i = util.readConsoleInt("Seja bem vindo, o que deseja fazer?\n" + "1 - Cadastrar Novo Cliente\n"
+					+ "2 - Cadastrar Conta\n" + "3 - Transferência\n" + "4 - Saque\n" + "5 - Depósito\n" + "10 - Sair\n");
 
-			cliente.cadastrarDados();
-			conta.cadastrarConta(cliente);
+			switch (i) {
+			case 1:
 
-			break;
-		case 2:
+				cliente.cadastrarDados();
+				conta.cadastrarConta(cliente);
 
-			conta.cadastrarConta(cliente);
+				break;
+			case 2:
 
-			break;
-		default:
-			util.writeConsole("Opção Inválida!");
-			break;
+				conta.cadastrarConta(cliente);
+
+				break;
+			case 3:
+
+				conta.transferir();
+
+				break;
+			case 4:
+
+				conta.saque();
+
+				break;
+			case 5:
+
+				conta.depositar();
+
+				break;
+			case 6:
+
+				conta.consultarSaldo();
+
+				break;
+			default:
+				util.writeConsole("Opção Inválida!");
+				break;
+			}
 		}
-
 	}
 
 }

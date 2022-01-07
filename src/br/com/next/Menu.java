@@ -1,13 +1,17 @@
 package br.com.next;
 
+import java.util.Date;
+
 import br.com.util.Util;
 
 public class Menu {
 
 	static Cliente cliente = null;
 	static Conta conta = null;
+	static Endereco endereco = null;
 	static Cliente cliente2 = null;
 	static Conta conta2 = null;
+	static Endereco endereco2 = null;
 
 	public static void menu() {
 
@@ -25,23 +29,34 @@ public class Menu {
 					+ "2 - Cadastrar Conta\n" + "3 - Realizar Login\n" + "0 - Sair\n");
 
 			switch (i) {
-			case 0: //Encerra o programa
+			case 0: // Encerra o programa
 
 				util.writeConsole("Programa encerrado!");
 
 				break;
-			case 1: //Cadastra novo cliente
+			case 1: // Cadastra novo cliente
 
 				String cpf;
+				Endereco endereco;
 				do {
 					cpf = util.readConsole("Informe seu CPF: ");
 				} while (!cpf.matches("[0-9]{11}"));
 				String nome = util.readConsole("Informe seu Nome Completo: ");
-				cliente = new Cliente(cpf, nome);
+
+				String logradouro = util.readConsole("Informe o seu Logradouro: ");
+				String numero = util.readConsole("Informe o número do Logradouro: ");
+				String cep = util.readConsole("Informe seu CEP: ");
+				String bairro = util.readConsole("Informe o Bairro: ");
+				String cidade = util.readConsole("Informe a Cidade: ");
+				String estado = util.readConsole("Informe o Estado: ");
+
+				endereco = new Endereco(logradouro, numero, cep, bairro, cidade, estado);
+
+				cliente = new Cliente(cpf, nome, endereco);
 				util.writeConsole("Cadastro realizado com sucesso!\n");
 
 				break;
-			case 2: //Cadastra nova conta
+			case 2: // Cadastra nova conta
 				String senha;
 				do {
 					senha = util.readConsole("Cadastre uma senha: ");
@@ -49,11 +64,11 @@ public class Menu {
 				conta = new Conta(cliente, senha);
 
 				break;
-			case 3: //Realiza Login em conta
-				
+			case 3: // Realiza Login em conta
+					// SE VOCÊ TENTAR LOGAR SEM CRIAR CONTA ANTES, O CÓDIGO EXPLODE
+
 				// tente fazer login
-				
-				
+
 				Integer f = -1;
 
 				while (f != 0) {
@@ -80,8 +95,9 @@ public class Menu {
 
 						break;
 					case 4:
-
 						conta.consultarSaldo();
+						util.writeConsole("Cliente: " + cliente.getNome() + "\nConta: " + conta.getNumeroConta()
+								+ "\nCPF: " + cliente.getCpf() + "\nSaldo Atual: R$" + conta.saldo + "\n");
 
 						break;
 					default:
@@ -101,7 +117,8 @@ public class Menu {
 
 	private static void chamaObjetoEstatico() {
 
-		cliente2 = new Cliente("12345678999", "joaozinho");
+		endereco2 = new Endereco("Rua dos Goitacazes", "69", "32321123", "Centro", "Antonio Nunes", "MG");
+		cliente2 = new Cliente("12345678999", "joaozinho", endereco2);
 		conta2 = new ContaCorrente(cliente2, "1234");
 		conta2 = new ContaPoupanca(cliente2, "1234");
 	}

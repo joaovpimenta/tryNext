@@ -6,15 +6,17 @@ public class Cliente {
 
 	private String cpf;
 	private String nome;
-	private Date dataNascimento;
+	// private Date dataNascimento;
 	private TipoCliente tipo;
 	private Endereco endereco;
 
-	public Cliente(String cpf, String nome) {
+	public Cliente(String cpf, String nome, Endereco endereco) {
 
 		this.setCpf(cpf);
 		this.setNome(nome);
+		// this.dataNascimento;
 		this.setTipo(TipoCliente.COMUM);
+		this.endereco = endereco;
 
 	}
 

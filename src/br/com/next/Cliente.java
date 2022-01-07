@@ -1,25 +1,24 @@
 package br.com.next;
 
-import br.com.util.Util;
+import java.util.Date;
 
 public class Cliente {
 
 	private String cpf;
 	private String nome;
+	private Date dataNascimento;
 	private TipoCliente tipo;
+	private Endereco endereco;
 
-	public void cadastrarDados() {
+	public Cliente(String cpf, String nome) {
 
-		Util util = new Util();
+		this.setCpf(cpf);
+		this.setNome(nome);
+		this.setTipo(TipoCliente.COMUM);
 
-		do {
-			this.cpf = util.readConsole("Informe seu CPF: ");
-		} while (!this.cpf.matches("[0-9]{11}"));
-
-		this.setNome(util.readConsole("Informe seu Nome Completo: "));
-		this.tipo = TipoCliente.COMUM;
-		util.writeConsole("Cadastro realizado com sucesso!\n");
 	}
+
+	// GETTERS E SETTERS
 
 	public String getCpf() {
 		return cpf;

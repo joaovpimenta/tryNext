@@ -4,26 +4,25 @@ import br.com.util.Util;
 
 public class Conta {
 
-	Util util = new Util();
+	Util util = new Util(); // Ainda precisa mover entradas para o menu
 
-	private String numeroConta;
-	private Double saldo;
-	private Cliente cliente;
+	protected Cliente cliente;
+	protected String numeroConta;
+	protected Double saldo;
+	protected String senha;
+
 	static Integer totalConta = 0;
 
-	private String numeroConta() {
-		return String.valueOf(totalConta++);
-	}
-
-	public void cadastrarConta(Cliente cliente) { // precisa ser private
+	public Conta(Cliente cliente, String senha) {
 		this.cliente = cliente;
 		this.numeroConta = numeroConta();
 		this.saldo = 0.00;
-		String senhaCadastrada;
-		do {
-			senhaCadastrada = util.readConsole("Cadastre uma senha (apenas 4 digitos): ");
-		} while (!senhaCadastrada.matches("[0-9]{4}"));
+		this.senha = senha;
 
+	}
+
+	private String numeroConta() {
+		return String.valueOf(totalConta++);
 	}
 
 	public void saque() {
@@ -33,7 +32,7 @@ public class Conta {
 			valorSaque = util.readConsoleDouble("Saldo insuficiente! Tente novamente: R$");
 		}
 		this.saldo -= valorSaque;
-
+		atualizaTipo();
 	}
 
 	public void transferir() {
@@ -46,6 +45,7 @@ public class Conta {
 			util.writeConsole("O valor informado é superior ao seu saldo atual.\n");
 		}
 		util.writeConsole("Saldo atual: R$" + this.saldo + "\n");
+		atualizaTipo();
 
 	}
 
@@ -54,11 +54,60 @@ public class Conta {
 		Double valorDeposito = util.readConsoleDouble("Qual valor deseja depositar? R$");
 		this.saldo += valorDeposito;
 		util.writeConsole("\nSaldo atual: R$" + this.saldo + "\n");
+		atualizaTipo();
 	}
 
 	public void consultarSaldo() {
-		
-		util.writeConsole("Cliente: " + this.cliente.getNome() + "\nConta: " + this.numeroConta + "\nCPF: " + this.cliente.getCpf() + "\nSaldo Atual: " + this.saldo + "\n");
+
+		util.writeConsole("Cliente: " + this.cliente.getNome() + "\nConta: " + this.numeroConta + "\nCPF: "
+				+ this.cliente.getCpf() + "\nSaldo Atual: R$" + this.saldo + "\n");
+	}
+
+	public void atualizaTipo() {
+		if (this.saldo < 5000.00) {
+			this.cliente.setTipo(TipoCliente.COMUM);
+		} else {
+			if (this.saldo >= 5000.00 && this.saldo < 15000.00) {
+				this.cliente.setTipo(TipoCliente.SUPER);
+			} else {
+				this.cliente.setTipo(TipoCliente.PREMIUM);
+			}
+		}
+
+	}
+
+	// Getters e Setters
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public String getNumeroConta() {
+		return numeroConta;
+	}
+
+	public void setNumeroConta(String numeroConta) {
+		this.numeroConta = numeroConta;
+	}
+
+	public Double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

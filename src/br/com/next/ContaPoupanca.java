@@ -8,6 +8,7 @@ public class ContaPoupanca extends Conta {
 		super(cliente, senha);
 	}
 
+	@SuppressWarnings("unused")
 	private void acrescentarRendimento() {
 		super.setSaldo(saldo+(saldo*taxaRendimento));
 

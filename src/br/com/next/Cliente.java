@@ -1,7 +1,5 @@
 package br.com.next;
 
-import java.util.Date;
-
 public class Cliente {
 
 	private String cpf;
@@ -16,7 +14,7 @@ public class Cliente {
 		this.setNome(nome);
 		// this.dataNascimento;
 		this.setTipo(TipoCliente.COMUM);
-		this.endereco = endereco;
+		this.setEndereco(endereco);
 
 	}
 
@@ -44,6 +42,14 @@ public class Cliente {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }

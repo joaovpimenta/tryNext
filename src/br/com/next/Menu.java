@@ -1,14 +1,13 @@
 package br.com.next;
 
-import java.util.Date;
-
 import br.com.util.Util;
 
 public class Menu {
-
+	//PRIMEIRO CLIENTE
 	static Cliente cliente = null;
 	static Conta conta = null;
 	static Endereco endereco = null;
+	//SEGUNDO CLIENTE
 	static Cliente cliente2 = null;
 	static Conta conta2 = null;
 	static Endereco endereco2 = null;
@@ -18,9 +17,7 @@ public class Menu {
 		chamaObjetoEstatico();
 
 		Util util = new Util();
-
-		// Conta conta = new Conta(cliente);
-
+		
 		int i = -1;
 
 		while (i != 0) {
@@ -52,7 +49,7 @@ public class Menu {
 
 				endereco = new Endereco(logradouro, numero, cep, bairro, cidade, estado);
 
-				cliente = new Cliente(cpf, nome, endereco);
+				cliente2 = new Cliente(cpf, nome, endereco);
 				util.writeConsole("Cadastro realizado com sucesso!\n");
 
 				break;
@@ -61,7 +58,7 @@ public class Menu {
 				do {
 					senha = util.readConsole("Cadastre uma senha: ");
 				} while (!senha.matches("[0-9]{4}"));
-				conta = new Conta(cliente, senha);
+				conta2 = new Conta(cliente, senha);
 
 				break;
 			case 3: // Realiza Login em conta
@@ -78,6 +75,11 @@ public class Menu {
 									+ "2 - Saque\n" + "3 - Depósito\n" + "4 - Consultar Saldo\n" + "0 - Sair\n");
 					// Switch só para quando estiver logado
 					switch (f) {
+					case 0: // Encerra o programa
+
+						util.writeConsole("Programa encerrado!");
+
+						break;
 					case 1:
 
 						conta.transferir();
@@ -116,11 +118,10 @@ public class Menu {
 	}
 
 	private static void chamaObjetoEstatico() {
-
-		endereco2 = new Endereco("Rua dos Goitacazes", "69", "32321123", "Centro", "Antonio Nunes", "MG");
-		cliente2 = new Cliente("12345678999", "joaozinho", endereco2);
-		conta2 = new ContaCorrente(cliente2, "1234");
-		conta2 = new ContaPoupanca(cliente2, "1234");
+		endereco = new Endereco("Rua da Alemnha", "1500", "32321123", "Centro", "Antonio Nunes", "MG");
+		cliente = new Cliente("12345678999", "João Victor Almeida Pimenta", endereco);
+		conta = new ContaCorrente(cliente, "1234");
+		conta = new ContaPoupanca(cliente, "1234");
 	}
 
 }

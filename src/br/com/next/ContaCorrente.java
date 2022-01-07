@@ -8,6 +8,7 @@ public class ContaCorrente extends Conta {
 		super(cliente, senha);
 	}
 
+	@SuppressWarnings("unused")
 	private void descontarTaxa() {
 		super.setSaldo(saldo - (saldo * taxaManutencao));
 

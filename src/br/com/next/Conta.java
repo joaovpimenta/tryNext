@@ -6,14 +6,17 @@ public class Conta {
 
 	Util util = new Util(); // Ainda precisa mover entradas para o menu
 
+	protected String id;
 	protected Cliente cliente;
 	protected String numeroConta;
 	protected Double saldo;
 	protected String senha;
 
 	static Integer totalConta = 0;
+	static Integer totalId = 0;
 
 	public Conta(Cliente cliente, String senha) {
+		this.id = numeroId();
 		this.cliente = cliente;
 		this.numeroConta = numeroConta();
 		this.saldo = 0.00;
@@ -21,6 +24,10 @@ public class Conta {
 
 	}
 
+	private String numeroId() {
+		return String.valueOf(totalId++);
+	}
+	
 	private String numeroConta() {
 		return String.valueOf(totalConta++);
 	}
@@ -38,7 +45,7 @@ public class Conta {
 	public void transferir() {
 
 		Double valorTransferencia = util.readConsoleDouble("Qual valor deseja transferir? R$");
-		if (this.saldo > valorTransferencia) {
+		if (this.saldo >= valorTransferencia) {
 			this.saldo -= valorTransferencia;
 			util.writeConsole("Transferência Realizada com sucesso!\n");
 		} else {

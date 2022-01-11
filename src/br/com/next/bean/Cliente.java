@@ -1,4 +1,6 @@
-package br.com.next;
+package br.com.next.bean;
+
+import br.com.tryNext.Endereco;
 
 public class Cliente {
 
@@ -8,7 +10,7 @@ public class Cliente {
 	private TipoCliente tipo;
 	private Endereco endereco;
 
-	public Cliente(String cpf, String nome, Endereco endereco) {
+	public Cliente() {
 
 		this.setCpf(cpf);
 		this.setNome(nome);

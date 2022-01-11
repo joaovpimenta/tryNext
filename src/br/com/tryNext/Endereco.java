@@ -1,4 +1,4 @@
-package br.com.next;
+package br.com.tryNext;
 
 public class Endereco {
 

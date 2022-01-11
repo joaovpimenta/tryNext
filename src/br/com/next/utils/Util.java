@@ -1,4 +1,4 @@
-package br.com.util;
+package br.com.next.utils;
 
 import java.util.Scanner;
 

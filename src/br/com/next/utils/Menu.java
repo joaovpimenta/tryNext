@@ -1,8 +1,11 @@
-package br.com.next;
+package br.com.next.utils;
 
 import java.util.ArrayList;
 
-import br.com.util.Util;
+import br.com.next.bean.Cliente;
+import br.com.tryNext.ContaCorrente;
+import br.com.tryNext.ContaPoupanca;
+import br.com.tryNext.Endereco;
 
 public class Menu {
 	// PRIMEIRO CLIENTE
@@ -24,7 +27,7 @@ public class Menu {
 
 	public static void menu() {
 
-		chamaObjetoEstatico();
+	//	chamaObjetoEstatico();
 
 		Util util = new Util();
 
@@ -32,8 +35,13 @@ public class Menu {
 
 		while (i != 0) {
 
-			i = util.readConsoleInt("Seja bem vinda(o), o que deseja fazer?\n" + "1 - Cadastrar Nova(o) Cliente\n"
-					+ "2 - Cadastrar Conta\n" + "3 - Realizar Login\n" + "0 - Sair\n");
+			i = util.readConsoleInt(
+			"-------------------- MENU ---------------\n" + 
+			"| 1 - Cadastrar Nova(o) Cliente		|\n" + 
+			"| 2 - Cadastrar Conta			|\n" + 
+			"| 3 - Realizar Login			|\n" + 
+			"| 0 - Sair				|\n"+
+			"-----------------------------------------\n");
 
 			switch (i) {
 			case 0: // Encerra o programa
@@ -43,13 +51,11 @@ public class Menu {
 				break;
 			case 1: // Cadastra novo cliente
 
-				String cpf;
+				
 				Endereco endereco;
-				do {
-					cpf = util.readConsole("Informe seu CPF: ");
-				} while (!cpf.matches("[0-9]{11}"));
+				
 				String nome = util.readConsole("Informe seu Nome Completo: ");
-
+				String cpf = util.readConsole("Informe seu CPF: ");
 				String logradouro = util.readConsole("Informe o seu Logradouro: ");
 				String numero = util.readConsole("Informe o número do Logradouro: ");
 				String cep = util.readConsole("Informe seu CEP: ");
@@ -59,7 +65,7 @@ public class Menu {
 
 				endereco = new Endereco(logradouro, numero, cep, bairro, cidade, estado);
 
-				cliente2 = new Cliente(cpf, nome, endereco);
+				//cliente2 = new Cliente(cpf, nome, endereco);
 				listaClientes.add(cliente2);
 				util.writeConsole("Cadastro realizado com sucesso!\n");
 
@@ -168,7 +174,7 @@ public class Menu {
 
 							break;
 						case 1:
-							contaCorrente.consultarSaldo();
+						/*	contaCorrente.consultarSaldo();
 							util.writeConsole("Cliente: " + cliente.getNome() + "\nConta: "
 									+ contaCorrente.getNumeroConta() + "\nCPF: " + cliente.getCpf()
 									+ "\nSaldo Atual: R$" + contaCorrente.saldo + "\n");
@@ -176,8 +182,8 @@ public class Menu {
 						case 2:
 							contaPoupanca.consultarSaldo();
 							util.writeConsole("Cliente: " + cliente.getNome() + "\nConta: "
-									+ contaCorrente.getNumeroConta() + "\nCPF: " + cliente.getCpf()
-									+ "\nSaldo Atual: R$" + contaCorrente.saldo + "\n");
+									+ contaCorrente.getNumeroConta() + "\nCPF: " + cliente.getCpf();
+								+ "\nSaldo Atual: R$" + contaCorrente.saldo + "\n"); 	*/
 							break;
 						default:
 							util.writeConsole("Opção Inválida");
@@ -201,13 +207,13 @@ public class Menu {
 	}
 
 	private static void chamaObjetoEstatico() {
-		endereco = new Endereco("Rua da Alemanha", "1500", "32321123", "Centro", "Antonio Nunes", "MG");
+	/*	endereco = new Endereco("Rua da Alemanha", "1500", "32321123", "Centro", "Antonio Nunes", "MG");
 		cliente = new Cliente("12345678999", "João Victor Almeida Pimenta", endereco);
 		listaClientes.add(cliente);
 		contaCorrente = new ContaCorrente(cliente, "1234");
 		listaContaCorrente.add(contaCorrente);
 		contaPoupanca = new ContaPoupanca(cliente, "1234");
-		listaContaPoupanca.add(contaPoupanca);
+		listaContaPoupanca.add(contaPoupanca); */
 	}
 
 }

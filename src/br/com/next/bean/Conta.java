@@ -1,6 +1,6 @@
-package br.com.next;
+package br.com.next.bean;
 
-import br.com.util.Util;
+import br.com.next.utils.Util;
 
 public class Conta {
 
@@ -15,7 +15,7 @@ public class Conta {
 	static Integer totalConta = 0;
 	static Integer totalId = 0;
 
-	public Conta(Cliente cliente, String senha) {
+	public Conta() {
 		this.id = numeroId();
 		this.cliente = cliente;
 		this.numeroConta = numeroConta();
@@ -97,8 +97,8 @@ public class Conta {
 		return numeroConta;
 	}
 
-	public void setNumeroConta(String numeroConta) {
-		this.numeroConta = numeroConta;
+	public String setNumeroConta() {
+		return String.valueOf(totalConta++);
 	}
 
 	public Double getSaldo() {

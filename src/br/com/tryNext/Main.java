@@ -1,4 +1,6 @@
-package br.com.next;
+package br.com.tryNext;
+
+import br.com.next.utils.Menu;
 
 public class Main {
 

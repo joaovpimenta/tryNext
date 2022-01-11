@@ -1,4 +1,7 @@
-package br.com.next;
+package br.com.tryNext;
+
+import br.com.next.bean.Cliente;
+import br.com.next.bean.Conta;
 
 public class ContaCorrente extends Conta {
 

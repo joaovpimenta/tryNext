@@ -1,6 +1,8 @@
-package br.com.next;
+package br.com.tryNext;
 
 import java.util.Date;
+
+import br.com.next.bean.Conta;
 
 public class Pix {
 	

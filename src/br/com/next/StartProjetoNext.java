@@ -76,9 +76,8 @@ public class StartProjetoNext {
 
 				continue;
 			case 2:
-				System.out.println("Não implementado, reclame aqui: mailto:joaovpiment@gmail.com");
-				continue;
-			case 3:
+
+				i = -1;
 
 				String loginCpf = "-";
 				while (validacoesBO.validaCPF(loginCpf)) {
@@ -91,13 +90,19 @@ public class StartProjetoNext {
 				}
 
 				if (DataBase.returnContaByCpfSenha(loginCpf, loginSenha) != null) {
-					System.out.println("Sucesso");
+
+					while (i != 0) {
+
+						System.out.println("Sucesso");
+					}
+
 				} else {
-					System.out.println("Falha");
+					System.out.println("Login ou senha incorretos! Tente novamente");
 				}
+
 				continue;
 			case 0:
-				continue;
+				break;
 			default:
 				System.out.println("Opção Inválida");
 				break;

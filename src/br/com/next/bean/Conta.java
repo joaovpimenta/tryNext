@@ -10,77 +10,24 @@ public class Conta {
 	protected Cliente cliente;
 	protected String numeroConta;
 	protected Double saldo;
-	protected String senha;
 
 	static Integer totalConta = 0;
 	static Integer totalId = 0;
 
 	public Conta() {
 		this.id = numeroId();
-		this.cliente = cliente;
+		this.setCliente(cliente);
 		this.numeroConta = numeroConta();
 		this.saldo = 0.00;
-		this.senha = senha;
 
 	}
 
 	private String numeroId() {
 		return String.valueOf(totalId++);
 	}
-	
+
 	private String numeroConta() {
 		return String.valueOf(totalConta++);
-	}
-
-	public void saque() {
-
-		Double valorSaque = util.readConsoleDouble("Digite o valor do saque: R$");
-		while (this.saldo < valorSaque) {
-			valorSaque = util.readConsoleDouble("Saldo insuficiente! Tente novamente: R$");
-		}
-		this.saldo -= valorSaque;
-		atualizaTipo();
-	}
-
-	public void transferir() {
-
-		Double valorTransferencia = util.readConsoleDouble("Qual valor deseja transferir? R$");
-		if (this.saldo >= valorTransferencia) {
-			this.saldo -= valorTransferencia;
-			util.writeConsole("Transferência Realizada com sucesso!\n");
-		} else {
-			util.writeConsole("O valor informado é superior ao seu saldo atual.\n");
-		}
-		util.writeConsole("Saldo atual: R$" + this.saldo + "\n");
-		atualizaTipo();
-
-	}
-
-	public void depositar() {
-
-		Double valorDeposito = util.readConsoleDouble("Qual valor deseja depositar? R$");
-		this.saldo += valorDeposito;
-		util.writeConsole("\nSaldo atual: R$" + this.saldo + "\n");
-		atualizaTipo();
-	}
-
-	public void consultarSaldo() {
-
-		util.writeConsole("Cliente: " + this.cliente.getNome() + "\nConta: " + this.numeroConta + "\nCPF: "
-				+ this.cliente.getCpf() + "\nSaldo Atual: R$" + this.saldo + "\n");
-	}
-
-	public void atualizaTipo() {
-		if (this.saldo < 5000.00) {
-			this.cliente.setTipo(TipoCliente.COMUM);
-		} else {
-			if (this.saldo >= 5000.00 && this.saldo < 15000.00) {
-				this.cliente.setTipo(TipoCliente.SUPER);
-			} else {
-				this.cliente.setTipo(TipoCliente.PREMIUM);
-			}
-		}
-
 	}
 
 	// Getters e Setters
@@ -107,14 +54,6 @@ public class Conta {
 
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 }

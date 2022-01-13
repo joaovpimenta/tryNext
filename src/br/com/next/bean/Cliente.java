@@ -1,7 +1,5 @@
 package br.com.next.bean;
 
-import br.com.tryNext.Endereco;
-
 public class Cliente {
 
 	private String cpf;
@@ -9,6 +7,7 @@ public class Cliente {
 	// private Date dataNascimento;
 	private TipoCliente tipo;
 	private Endereco endereco;
+	private String senha;
 
 	public Cliente() {
 
@@ -17,6 +16,7 @@ public class Cliente {
 		// this.dataNascimento;
 		this.setTipo(TipoCliente.COMUM);
 		this.setEndereco(endereco);
+		this.setSenha(senha);
 
 	}
 
@@ -52,6 +52,14 @@ public class Cliente {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

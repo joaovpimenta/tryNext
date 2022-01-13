@@ -9,7 +9,7 @@ public class DataBase {
 
 	private static Map<String, Conta> dataBase = new HashMap<String, Conta>();
 
-	public static Conta getContaById(String IdConta) {
+	public static Conta getContaDB(String IdConta) {
 
 		Conta conta = DataBase.dataBase.get(IdConta);
 
@@ -19,10 +19,26 @@ public class DataBase {
 		}
 		return conta;
 	}
-	public static void insertConta(String numeroConta, Conta conta) {
-		
+
+	public static void setContaDB(String numeroConta, Conta conta) {
+
 		DataBase.dataBase.put(numeroConta, conta);
-		
+
+	}
+
+	public static Conta returnContaByCpfSenha(String cpf, String senha) {
+
+		for (Map.Entry<String, Conta> tipoConta : dataBase.entrySet()) {
+
+			if (tipoConta.getValue().getCliente().getCpf().equals(cpf)
+					&& tipoConta.getValue().getCliente().getSenha().equals(senha)) {
+
+				// System.out.println("ENCONTRADO:" + tipoConta.getValue().getTipoConta());
+
+				return tipoConta.getValue();
+			}
+		}
+		return null;
 	}
 
 }

@@ -1,8 +1,8 @@
 package br.com.next.bo;
 
 import br.com.next.bean.Cliente;
+import br.com.next.bean.Endereco;
 import br.com.next.bean.TipoCliente;
-import br.com.tryNext.Endereco;
 
 public class ClienteBO {
 
@@ -10,7 +10,7 @@ public class ClienteBO {
 
 	}
 
-	public Cliente cadastrarCliente(String cpf, String nome, Endereco endereco) {
+	public Cliente cadastrarCliente(String cpf, String nome, Endereco endereco, String senha) {
 
 		Cliente cliente = new Cliente();
 		cliente.setCpf(cpf);
@@ -18,18 +18,9 @@ public class ClienteBO {
 		// cliente.dataNascimento;
 		cliente.setTipo(TipoCliente.COMUM);
 		cliente.setEndereco(endereco);
+		cliente.setSenha(senha);
 
 		return cliente;
-	}
-
-	public boolean validaCPF(String cpf) {
-
-		if (!cpf.matches("[0-9]{11}")) {
-			return true;
-		} else {
-			return false;
-		}
-
 	}
 
 }

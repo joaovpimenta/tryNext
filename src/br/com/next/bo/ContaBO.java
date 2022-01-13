@@ -2,6 +2,7 @@ package br.com.next.bo;
 
 import br.com.next.bean.Cliente;
 import br.com.next.bean.Conta;
+import br.com.next.bean.TipoCliente;
 import br.com.next.utils.DataBase;
 
 public class ContaBO {
@@ -13,18 +14,18 @@ public class ContaBO {
 	}
 
 	public ContaBO(Cliente cliente) {
-		this.conta = this.gerarConta(cliente);
+		this.conta = this.novaConta(cliente);
 
 	}
 
-	private Conta gerarConta(Cliente cliente) {
+	private Conta novaConta(Cliente cliente) {
 		Conta conta = new Conta();
 		conta.setCliente(cliente);
 		conta.setNumeroConta();
 		conta.setSaldo(0.0);
-		
-		DataBase.insertConta(conta.getNumeroConta(), conta);
-		
+
+		DataBase.setContaDB(conta.getNumeroConta(), conta);
+
 		return conta;
 	}
 
@@ -40,10 +41,10 @@ public class ContaBO {
 			contaDestino.setSaldo(saldoDestino);
 
 			System.out.println("Saldo atual: R$" + this.conta.getSaldo() + "\n");
-			this.conta.atualizaTipo();
-			
-			DataBase.insertConta(contaDestino.getNumeroConta(), contaDestino);
-			DataBase.insertConta(this.conta.getNumeroConta(), this.conta);
+			this.atualizaTipo();
+
+			DataBase.setContaDB(contaDestino.getNumeroConta(), contaDestino);
+			DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
 
 			return true;
 
@@ -52,17 +53,39 @@ public class ContaBO {
 			return false;
 		}
 	}
-	public void depositar(double valorDepositado) {
-		Double saldoAtual = this.conta.getSaldo();
-		saldoAtual += valorDepositado;
-		this.conta.setSaldo(saldoAtual);
-		DataBase.insertConta(this.conta.getNumeroConta(), this.conta);
-		
+
+	/**
+	 * Esse método deposita um valor na conta informada
+	 * 
+	 * @param contaDestino    Em qual conta será depositado
+	 * @param valorDepositado Quanto será depositado na conta
+	 */
+	public void depositar(Conta contaDestino, double valorDepositado) {
+
+		Double saldoDestino = contaDestino.getSaldo();
+		saldoDestino += valorDepositado;
+		contaDestino.setSaldo(saldoDestino);
+		DataBase.setContaDB(contaDestino.getNumeroConta(), contaDestino);
+
 		System.out.println("\nSaldo atual: R$" + this.conta.getSaldo() + "\n");
-		this.conta.atualizaTipo();
+		this.atualizaTipo();
 	}
+
 	public void consultaSaldo() {
-		System.out.println("Cliente: " + this.conta.getCliente().getNome() + "\nConta: " + this.conta.getNumeroConta() + "\nCPF: "
-				+ this.conta.getCliente().getCpf() + "\nSaldo Atual: R$" + this.conta.getSaldo() + "\n");
+		System.out.println("Cliente: " + this.conta.getCliente().getNome() + "\nConta: " + this.conta.getNumeroConta()
+				+ "\nCPF: " + this.conta.getCliente().getCpf() + "\nSaldo Atual: R$" + this.conta.getSaldo() + "\n");
+	}
+
+	public void atualizaTipo() {
+		if (this.conta.getSaldo() < 5000.00) {
+			this.conta.getCliente().setTipo(TipoCliente.COMUM);
+		} else {
+			if (this.conta.getSaldo() >= 5000.00 && this.conta.getSaldo() < 15000.00) {
+				this.conta.getCliente().setTipo(TipoCliente.SUPER);
+			} else {
+				this.conta.getCliente().setTipo(TipoCliente.PREMIUM);
+			}
+		}
+
 	}
 }

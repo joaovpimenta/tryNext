@@ -4,6 +4,15 @@ import java.util.Scanner;
 
 public class Util {
 
+	public String readConsole() {
+		@SuppressWarnings("resource")
+		Scanner read = new Scanner(System.in);
+		String typedText = read.nextLine();
+
+		return typedText;
+
+	}
+
 	// METODO QUE LÊ O CONSOLE E RETORNA UMA STRING(TEXTO)
 	public String readConsole(String texto) {
 		@SuppressWarnings("resource")
@@ -19,11 +28,27 @@ public class Util {
 		System.out.print(texto);
 	}
 
+	public Integer readConsoleInt() {
+		@SuppressWarnings("resource")
+		Scanner read = new Scanner(System.in);
+		Integer typedText = read.nextInt();
+
+		return typedText;
+	}
+
 	public Integer readConsoleInt(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(texto);
 		Integer typedText = read.nextInt();
+
+		return typedText;
+	}
+
+	public Double readConsoleDouble() {
+		@SuppressWarnings("resource")
+		Scanner read = new Scanner(System.in);
+		Double typedText = read.nextDouble();
 
 		return typedText;
 	}

@@ -1,4 +1,4 @@
-package br.com.tryNext;
+package br.com.next.bean;
 
 public class Endereco {
 
@@ -24,8 +24,8 @@ public class Endereco {
 		this.estado = estado;
 	}
 
-	//GETTERS e SETTERS
-	
+	// GETTERS e SETTERS
+
 	public String getNumero() {
 		return numero;
 	}

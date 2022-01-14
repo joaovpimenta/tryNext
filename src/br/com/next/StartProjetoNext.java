@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.next.bean.Cliente;
+import br.com.next.bean.Conta;
 import br.com.next.bean.Endereco;
 import br.com.next.bo.ClienteBO;
 import br.com.next.bo.ContaBO;
@@ -101,38 +102,55 @@ public class StartProjetoNext {
 						switch (i) {
 						case 1:
 							// 1 - Realizar Depósito
-							String contaDestino = util.readConsole("Informe o número da conta em que deseja depositar: ");
-							Double valorDepositado = util.readConsoleDouble("Qual o valor do depósito?");
-							//contaBO.depositar(contaDestino, valorDepositado);
-
-							break;
+							Conta contaDestino = DataBase
+									.getContaDB(util.readConsole("Informe a conta em que deseja depositar: "));
+							if (contaDestino != null) {
+								if (contaDestino.getNumeroConta() != null) {
+									Double valorDepositado = util.readConsoleDouble("Qual o valor do depósito?");
+									contaBO.depositar(contaDestino, valorDepositado);
+								}
+							}
+							continue;
 						case 2:
 							// 2 - Realizar Saque
+							Double valorSaque = util.readConsoleDouble("Qual o valor do saque?");
+							contaBO.sacar(valorSaque);
 
-							break;
+							continue;
 						case 3:
 							// 3 - Realizar Transferência
-
-							break;
+							contaDestino = DataBase
+									.getContaDB(util.readConsole("Informe a conta para qual deseja transferir: "));
+							if (contaDestino != null) {
+								if (contaDestino.getNumeroConta() != null) {
+									Double valor = util.readConsoleDouble("Qual o valor da transferência?");
+									contaBO.transferir(contaDestino, valor);
+								}
+							}
+							continue;
 						case 4:
 							// 4 - Consultar Saldo
+							contaBO.consultaSaldo();
 
-							break;
+							continue;
 						case 5:
 							// 5 - Area Pix
-
-							break;
+							System.out.println(
+									"Area Pix acabou de sair do forno, mas estão muito quentes para ser servido, tente mais tarde");
+							continue;
 						case 6:
 							// 6 - Criar Conta Poupança
-
-							break;
+							System.out.println(
+									"Criar Poupança acabou de sair do forno, mas estão muito quentes para ser servido, tente mais tarde");
+							continue;
 						case 7:
 							// 7 - Sair da Conta
-							break;
+							System.out.println("Até mais!");
+							continue;
 						case 0:
 							break;
 						default:
-							break;
+							continue;
 						}
 
 					}
@@ -144,13 +162,13 @@ public class StartProjetoNext {
 				continue;
 			case 3:
 				System.out.println(
-						"Outras opções acabaram de sair do forno, mas estão muito quentes para sere servidas, tente mais tarde");
+						"Outras opções acabaram de sair do forno, mas estão muito quentes para serem servidas, tente mais tarde");
 				continue;
 			case 0:
 				break;
 			default:
 				System.out.println("Opção Inválida");
-				break;
+				continue;
 			}
 
 		}

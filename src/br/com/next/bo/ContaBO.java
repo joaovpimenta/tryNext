@@ -66,10 +66,30 @@ public class ContaBO {
 		Double saldoDestino = contaDestino.getSaldo();
 		saldoDestino += valorDepositado;
 		contaDestino.setSaldo(saldoDestino);
-		DataBase.setContaDB(contaDestino.getNumeroConta(), contaDestino);
 
 		System.out.println("\nSaldo atual: R$" + this.conta.getSaldo() + "\n");
 		this.atualizaTipo();
+
+		DataBase.setContaDB(contaDestino.getNumeroConta(), contaDestino);
+	}
+
+	public Boolean sacar(Double valorSaque) {
+
+		if (this.conta.getSaldo() >= valorSaque) {
+			double saldo = this.conta.getSaldo();
+			saldo -= valorSaque;
+			this.conta.setSaldo(saldo);
+
+			System.out.println("\nSaldo atual: R$" + this.conta.getSaldo() + "\n");
+			this.atualizaTipo();
+
+			DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
+			
+			return true;
+		}else {
+			System.out.println("O valor informado é superior ao seu saldo atual.\n");
+			return false;
+		}
 	}
 
 	public void consultaSaldo() {

@@ -61,7 +61,7 @@ public class ContaBO {
 	 * @param contaDestino    Em qual conta será depositado
 	 * @param valorDepositado Quanto será depositado na conta
 	 */
-	public void depositar(Conta contaDestino, double valorDepositado) {
+	public void depositar(Conta contaDestino, Double valorDepositado) {
 
 		Double saldoDestino = contaDestino.getSaldo();
 		saldoDestino += valorDepositado;

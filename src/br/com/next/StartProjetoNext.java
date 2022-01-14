@@ -88,24 +88,63 @@ public class StartProjetoNext {
 				while (validacoesBO.validaSenha(loginSenha)) {
 					loginSenha = util.readConsole("Digite sua senha: ");
 				}
-				
+
 				ContaBO contaBO = new ContaBO(DataBase.returnContaByCpfSenha(loginCpf, loginSenha));
-				
+
 				if (contaBO.getConta() != null) {
 
 					while (i != 0) {
-						
-						System.out.println("Login concluído com sucesso. Seja bem-vindo! \n\n");
-						menu.menuLogado();
-						util.readConsoleInt();
 
-						
+						menu.menuLogado();
+						i = util.readConsoleInt();
+
+						switch (i) {
+						case 1:
+							// 1 - Realizar Depósito
+							String contaDestino = util.readConsole("Informe o número da conta em que deseja depositar: ");
+							Double valorDepositado = util.readConsoleDouble("Qual o valor do depósito?");
+							//contaBO.depositar(contaDestino, valorDepositado);
+
+							break;
+						case 2:
+							// 2 - Realizar Saque
+
+							break;
+						case 3:
+							// 3 - Realizar Transferência
+
+							break;
+						case 4:
+							// 4 - Consultar Saldo
+
+							break;
+						case 5:
+							// 5 - Area Pix
+
+							break;
+						case 6:
+							// 6 - Criar Conta Poupança
+
+							break;
+						case 7:
+							// 7 - Sair da Conta
+							break;
+						case 0:
+							break;
+						default:
+							break;
+						}
+
 					}
 
 				} else {
 					System.out.println("Login ou senha incorretos! Tente novamente");
 				}
 
+				continue;
+			case 3:
+				System.out.println(
+						"Outras opções acabaram de sair do forno, mas estão muito quentes para sere servidas, tente mais tarde");
 				continue;
 			case 0:
 				break;

@@ -7,6 +7,7 @@ public class Util {
 	public String readConsole() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
+		System.out.print(" » ");
 		String typedText = read.nextLine();
 
 		return typedText;
@@ -17,7 +18,7 @@ public class Util {
 	public String readConsole(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto);
+		System.out.print(texto+"\n » ");
 		String typedText = read.nextLine();
 
 		return typedText;
@@ -31,6 +32,7 @@ public class Util {
 	public Integer readConsoleInt() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
+		System.out.print(" » ");
 		Integer typedText = read.nextInt();
 
 		return typedText;
@@ -39,7 +41,7 @@ public class Util {
 	public Integer readConsoleInt(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto);
+		System.out.print(texto+"\n » ");
 		Integer typedText = read.nextInt();
 
 		return typedText;
@@ -56,7 +58,7 @@ public class Util {
 	public Double readConsoleDouble(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto);
+		System.out.print(texto+"\n » ");
 		Double typedText = read.nextDouble();
 
 		return typedText;
@@ -65,7 +67,7 @@ public class Util {
 	public Double writeConsole(Double saldo) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(saldo);
+		System.out.print(saldo+"\n » ");
 		double typedText = read.nextDouble();
 
 		return typedText;
@@ -74,7 +76,7 @@ public class Util {
 //	public Integer readConsoleInt(Object texto) {
 //		@SuppressWarnings("resource")
 //		Scanner read = new Scanner(System.in);
-//		System.out.print(texto);
+//		System.out.print(texto+"\n» ");
 //		Integer typedText = read.nextInt();
 //
 //		return typedText;

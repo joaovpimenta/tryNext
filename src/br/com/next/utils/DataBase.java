@@ -28,14 +28,13 @@ public class DataBase {
 
 	public static Conta returnContaByCpfSenha(String cpf, String senha) {
 
-		for (Map.Entry<String, Conta> tipoConta : dataBase.entrySet()) {
+		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
 
-			if (tipoConta.getValue().getCliente().getCpf().equals(cpf)
-					&& tipoConta.getValue().getCliente().getSenha().equals(senha)) {
+			if (conta.getValue().getCliente().getCpf().equals(cpf) && conta.getValue().getCliente().getSenha().equals(senha)) {
 
-				// System.out.println("ENCONTRADO:" + tipoConta.getValue().getTipoConta());
+				System.out.println("ENCONTRADO:" + conta.getValue().getNumeroConta());
 
-				return tipoConta.getValue();
+				return conta.getValue();
 			}
 		}
 		return null;

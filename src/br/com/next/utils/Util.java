@@ -71,4 +71,14 @@ public class Util {
 		return typedText;
 	}
 
+//	public Integer readConsoleInt(Object texto) {
+//		@SuppressWarnings("resource")
+//		Scanner read = new Scanner(System.in);
+//		System.out.print(texto);
+//		Integer typedText = read.nextInt();
+//
+//		return typedText;
+//		
+//	}
+
 }

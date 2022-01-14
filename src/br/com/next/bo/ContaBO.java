@@ -25,6 +25,7 @@ public class ContaBO {
 		conta.setSaldo(0.0);
 
 		DataBase.setContaDB(conta.getNumeroConta(), conta);
+		System.out.println("O número da sua conta é: " + conta.getNumeroConta());
 
 		return conta;
 	}
@@ -86,6 +87,10 @@ public class ContaBO {
 				this.conta.getCliente().setTipo(TipoCliente.PREMIUM);
 			}
 		}
-
 	}
+
+	public Conta getConta() {
+		return conta;
+	}
+
 }

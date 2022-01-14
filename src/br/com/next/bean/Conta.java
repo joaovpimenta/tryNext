@@ -1,10 +1,8 @@
 package br.com.next.bean;
 
-import br.com.next.utils.Util;
+import java.util.UUID;
 
 public class Conta {
-
-	Util util = new Util(); // Ainda precisa mover entradas para o menu
 
 	protected String id;
 	protected Cliente cliente;
@@ -27,7 +25,7 @@ public class Conta {
 	}
 
 	private String numeroConta() {
-		return String.valueOf(totalConta++);
+		return UUID.randomUUID().toString();
 	}
 
 	// Getters e Setters
@@ -54,6 +52,14 @@ public class Conta {
 
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

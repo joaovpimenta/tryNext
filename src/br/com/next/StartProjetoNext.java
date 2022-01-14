@@ -88,12 +88,18 @@ public class StartProjetoNext {
 				while (validacoesBO.validaSenha(loginSenha)) {
 					loginSenha = util.readConsole("Digite sua senha: ");
 				}
-
-				if (DataBase.returnContaByCpfSenha(loginCpf, loginSenha) != null) {
+				
+				ContaBO contaBO = new ContaBO(DataBase.returnContaByCpfSenha(loginCpf, loginSenha));
+				
+				if (contaBO.getConta() != null) {
 
 					while (i != 0) {
+						
+						System.out.println("Login concluído com sucesso. Seja bem-vindo! \n\n");
+						menu.menuLogado();
+						util.readConsoleInt();
 
-						System.out.println("Sucesso");
+						
 					}
 
 				} else {

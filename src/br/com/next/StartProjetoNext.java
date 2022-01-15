@@ -1,11 +1,14 @@
 package br.com.next;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.next.bean.Cliente;
 import br.com.next.bean.Conta;
 import br.com.next.bean.Endereco;
+import br.com.next.bean.TipoConta;
 import br.com.next.bo.ClienteBO;
 import br.com.next.bo.ContaBO;
 import br.com.next.bo.ValidacoesBO;
@@ -41,6 +44,13 @@ public class StartProjetoNext {
 
 				String nome = util.readConsole("Digite o seu nome completo: ");
 
+				String data = "";
+
+				while (validacoesBO.validaData(data)) {
+					data = util.readConsole("Informe sua data de nascimento (dd/mm/yyyy): ");
+				}
+				Date dataNascimento = util.readConsoleData(data);
+
 				String logradouro = "-";
 				while (validacoesBO.validaLogradouro(logradouro)) {
 					logradouro = util.readConsole("Informe o seu Logradouro: ");
@@ -71,7 +81,38 @@ public class StartProjetoNext {
 
 				Endereco endereco = new Endereco(logradouro, numeroLogradouro, cep, bairro, cidade, estado);
 
-				new ContaBO(clienteBO.cadastrarCliente(cpf, nome, endereco, senha));
+				i = -1;
+
+				while (i != 0) {
+					menu.menuCriacaoConta();
+					i = util.readConsoleInt("Qual tipo de conta: ");
+					
+					List<Conta> listaContas = DataBase.returnContasByCpf(cpf);
+					
+					for(Conta conta : listaContas) {
+						
+					}
+
+					switch (i) {
+					case 1:
+						// CC
+						new ContaBO(clienteBO.cadastrarCliente(cpf, nome, dataNascimento, endereco, senha),
+								TipoConta.CORRENTE);
+						continue;
+					case 2:
+						// CP
+						new ContaBO(clienteBO.cadastrarCliente(cpf, nome, dataNascimento, endereco, senha),
+								TipoConta.POUPANCA);
+						continue;
+					case 0:
+						// Voltar
+						break;
+					default:
+						util.writeConsole("Opção Inválida!");
+						continue;
+					}
+
+				}
 
 				System.out.println("Cadastro Realizado com sucesso!");
 

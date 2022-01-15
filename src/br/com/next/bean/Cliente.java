@@ -1,10 +1,12 @@
 package br.com.next.bean;
 
+import java.util.Date;
+
 public class Cliente {
 
 	private String cpf;
 	private String nome;
-	// private Date dataNascimento;
+	private Date dataNascimento;
 	private TipoCliente tipo;
 	private Endereco endereco;
 	private String senha;
@@ -13,7 +15,7 @@ public class Cliente {
 
 		this.setCpf(cpf);
 		this.setNome(nome);
-		// this.dataNascimento;
+		this.setDataNascimento(dataNascimento);
 		this.setTipo(TipoCliente.COMUM);
 		this.setEndereco(endereco);
 		this.setSenha(senha);
@@ -60,6 +62,14 @@ public class Cliente {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 }

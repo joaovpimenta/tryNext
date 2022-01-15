@@ -16,6 +16,19 @@ public class Menu {
 		System.out.println("+————————————————————————————————————————————————————+");
 
 	}
+	
+	public void menuCriacaoConta() {
+
+		System.out.println("+————————————————————————————————————————————————————+");
+		System.out.println("|                  × Menu Inicial ×                  |");
+		System.out.println("+————————————————————————————————————————————————————+");
+		System.out.println("| » 1 - Criar Conta Corrente                         |");
+		System.out.println("| » 2 - Criar Conta Poupança                         |");
+		System.out.println("| » 3 - Criar Ambas                                  |");
+		System.out.println("| » 0 - Voltar                                       |");
+		System.out.println("+————————————————————————————————————————————————————+");
+
+	}
 
 	public void menuLogado() {
 

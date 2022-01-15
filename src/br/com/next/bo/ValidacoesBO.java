@@ -57,4 +57,14 @@ public class ValidacoesBO {
 		}
 
 	}
+	
+	public boolean validaData(String data) {
+
+		if (!data.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 }

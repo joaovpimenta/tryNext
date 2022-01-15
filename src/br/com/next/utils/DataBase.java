@@ -1,6 +1,8 @@
 package br.com.next.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.next.bean.Conta;
@@ -38,6 +40,20 @@ public class DataBase {
 			}
 		}
 		return null;
+	}
+	
+	public static List<Conta> returnContasByCpf(String cpf) {
+		List<Conta> lConta = new ArrayList<Conta>();
+		
+		for (Map.Entry<String, Conta> conta : DataBase.dataBase.entrySet()) {
+			
+			if (conta.getValue().getCliente().getCpf().equals(cpf)) {
+				lConta.add((Conta) conta);
+			}	
+		}
+		
+		return lConta;
+		
 	}
 
 }

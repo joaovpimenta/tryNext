@@ -4,28 +4,21 @@ import java.util.UUID;
 
 public class Conta {
 
-	protected String id;
-	protected Cliente cliente;
-	protected String numeroConta;
-	protected Double saldo;
+	private String id;
+	private Cliente cliente;
+	private String numeroConta;
+	private Double saldo;
+	private Pix pix;
+	private TipoConta tipoConta;
 
-	static Integer totalConta = 0;
-	static Integer totalId = 0;
+
 
 	public Conta() {
-		this.id = numeroId();
+
 		this.setCliente(cliente);
-		this.numeroConta = numeroConta();
+		this.numeroConta = setNumeroConta();
 		this.saldo = 0.00;
 
-	}
-
-	private String numeroId() {
-		return String.valueOf(totalId++);
-	}
-
-	private String numeroConta() {
-		return UUID.randomUUID().toString();
 	}
 
 	// Getters e Setters
@@ -43,7 +36,7 @@ public class Conta {
 	}
 
 	public String setNumeroConta() {
-		return String.valueOf(totalConta++);
+		return UUID.randomUUID().toString();
 	}
 
 	public Double getSaldo() {
@@ -61,5 +54,23 @@ public class Conta {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	public Pix getPix() {
+		return pix;
+	}
+
+	public void setPix(Pix pix) {
+		this.pix = pix;
+	}
+
+	public TipoConta getTipoConta() {
+		return tipoConta;
+	}
+
+	public void setTipoConta(TipoConta tipoConta) {
+		this.tipoConta = tipoConta;
+	}
+	
+	
 
 }

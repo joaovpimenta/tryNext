@@ -1,11 +1,11 @@
 package br.com.next.bean;
 
-public enum TipoCliente {
-	COMUM(1), SUPER(2), PREMIUM(3);
+public enum TipoChavePix {
+	CPF(0), EMAIL(1), TELEFONE(2), ALEATORIO(3);
 
 	private int id;
 
-	private TipoCliente(int id) {
+	private TipoChavePix(int id) {
 		this.id = id;
 	}
 

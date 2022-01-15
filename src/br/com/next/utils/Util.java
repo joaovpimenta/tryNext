@@ -1,5 +1,8 @@
 package br.com.next.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Util {
@@ -18,7 +21,7 @@ public class Util {
 	public String readConsole(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto+"\n » ");
+		System.out.print(texto + "\n » ");
 		String typedText = read.nextLine();
 
 		return typedText;
@@ -41,7 +44,7 @@ public class Util {
 	public Integer readConsoleInt(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto+"\n » ");
+		System.out.print(texto + "\n » ");
 		Integer typedText = read.nextInt();
 
 		return typedText;
@@ -58,7 +61,7 @@ public class Util {
 	public Double readConsoleDouble(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto+"\n » ");
+		System.out.print(texto + "\n » ");
 		Double typedText = read.nextDouble();
 
 		return typedText;
@@ -67,10 +70,20 @@ public class Util {
 	public Double writeConsole(Double saldo) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(saldo+"\n » ");
+		System.out.print(saldo + "\n » ");
 		double typedText = read.nextDouble();
 
 		return typedText;
+	}
+
+	public Date readConsoleData(String data) {
+		SimpleDateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			return dataFormat.parse(data);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 //	public Integer readConsoleInt(Object texto) {

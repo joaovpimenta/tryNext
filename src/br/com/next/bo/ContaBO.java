@@ -3,6 +3,7 @@ package br.com.next.bo;
 import br.com.next.bean.Cliente;
 import br.com.next.bean.Conta;
 import br.com.next.bean.TipoCliente;
+import br.com.next.bean.TipoConta;
 import br.com.next.utils.DataBase;
 
 public class ContaBO {
@@ -13,16 +14,16 @@ public class ContaBO {
 		this.conta = conta;
 	}
 
-	public ContaBO(Cliente cliente) {
-		this.conta = this.novaConta(cliente);
-
+	public ContaBO(Cliente cliente, TipoConta tipoConta) {
+		this.conta = this.novaConta(cliente, tipoConta);
 	}
 
-	private Conta novaConta(Cliente cliente) {
+	private Conta novaConta(Cliente cliente, TipoConta tipoConta) {
 		Conta conta = new Conta();
 		conta.setCliente(cliente);
 		conta.setNumeroConta();
 		conta.setSaldo(0.0);
+		conta.setTipoConta(tipoConta);
 
 		DataBase.setContaDB(conta.getNumeroConta(), conta);
 		System.out.println("O número da sua conta é: " + conta.getNumeroConta());

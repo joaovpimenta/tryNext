@@ -10,6 +10,7 @@ public class Conta {
 	private Double saldo;
 	private Pix pix;
 	private TipoConta tipoConta;
+	//private Date data
 
 
 

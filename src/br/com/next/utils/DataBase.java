@@ -34,8 +34,6 @@ public class DataBase {
 
 			if (conta.getValue().getCliente().getCpf().equals(cpf) && conta.getValue().getCliente().getSenha().equals(senha)) {
 
-				System.out.println("ENCONTRADO:" + conta.getValue().getNumeroConta());
-
 				return conta.getValue();
 			}
 		}
@@ -43,16 +41,16 @@ public class DataBase {
 	}
 	
 	public static List<Conta> returnContasByCpf(String cpf) {
-		List<Conta> lConta = new ArrayList<Conta>();
+		List<Conta> listaContas = new ArrayList<Conta>();
 		
-		for (Map.Entry<String, Conta> conta : DataBase.dataBase.entrySet()) {
+		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
 			
 			if (conta.getValue().getCliente().getCpf().equals(cpf)) {
-				lConta.add((Conta) conta);
+				listaContas.add(conta.getValue());
 			}	
 		}
 		
-		return lConta;
+		return listaContas;
 		
 	}
 

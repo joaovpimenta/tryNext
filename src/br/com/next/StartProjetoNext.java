@@ -35,7 +35,7 @@ public class StartProjetoNext {
 
 			switch (i) {
 			case 1:
-
+				// TODO MENU PRINCIPAL - 1 - CRIAR CONTA
 				ClienteBO clienteBO = new ClienteBO();
 				String cpf = "-";
 				while (validacoesBO.validaCPF(cpf)) {
@@ -81,39 +81,47 @@ public class StartProjetoNext {
 
 				Endereco endereco = new Endereco(logradouro, numeroLogradouro, cep, bairro, cidade, estado);
 
+				Cliente cliente = clienteBO.cadastrarCliente(cpf, nome, dataNascimento, endereco, senha);
+
 				i = -1;
 
 				while (i != 0) {
 					menu.menuCriacaoConta();
-					i = util.readConsoleInt("Qual tipo de conta: ");
-					
+					i = util.readConsoleInt();
+
 					List<Conta> listaContas = DataBase.returnContasByCpf(cpf);
-					
-					for(Conta conta : listaContas) {
-						
+
+					for (Conta contaIteradora : listaContas) {
+
+						if (i == contaIteradora.getTipoConta().getId()) {
+							util.writeConsole("Essa conta já existe!\n" + "A conta existente é: \n"
+									+ contaIteradora.getNumeroConta() + "\n");
+							i = -1;
+							break;
+						}
+
 					}
 
 					switch (i) {
 					case 1:
-						// CC
-						new ContaBO(clienteBO.cadastrarCliente(cpf, nome, dataNascimento, endereco, senha),
-								TipoConta.CORRENTE);
+						// TODO MENU CRIAÇÃO DE CONTA - 1 - CONTA CORRENTE
+						new ContaBO(cliente, TipoConta.CORRENTE);
 						continue;
 					case 2:
-						// CP
-						new ContaBO(clienteBO.cadastrarCliente(cpf, nome, dataNascimento, endereco, senha),
-								TipoConta.POUPANCA);
+						// TODO MENU CRIAÇÃO DE CONTA - 2 - CONTA POUPANÇA
+						new ContaBO(cliente, TipoConta.POUPANCA);
 						continue;
 					case 0:
-						// Voltar
+						// MENU LOGADO - 0 - Voltar ao menu anterior
 						break;
 					default:
-						util.writeConsole("Opção Inválida!");
+						util.writeConsole("Opção Inválida!\n");
 						continue;
 					}
 
 				}
 
+				i = -1;
 				System.out.println("Cadastro Realizado com sucesso!");
 
 				continue;
@@ -142,7 +150,7 @@ public class StartProjetoNext {
 
 						switch (i) {
 						case 1:
-							// 1 - Realizar Depósito
+							// MENU LOGADO - 1 - Realizar Depósito
 							Conta contaDestino = DataBase
 									.getContaDB(util.readConsole("Informe a conta em que deseja depositar: "));
 							if (contaDestino != null) {
@@ -153,13 +161,13 @@ public class StartProjetoNext {
 							}
 							continue;
 						case 2:
-							// 2 - Realizar Saque
+							// MENU LOGADO - 2 - Realizar Saque
 							Double valorSaque = util.readConsoleDouble("Qual o valor do saque?");
 							contaBO.sacar(valorSaque);
 
 							continue;
 						case 3:
-							// 3 - Realizar Transferência
+							// MENU LOGADO - 3 - Realizar Transferência
 							contaDestino = DataBase
 									.getContaDB(util.readConsole("Informe a conta para qual deseja transferir: "));
 							if (contaDestino != null) {
@@ -170,25 +178,24 @@ public class StartProjetoNext {
 							}
 							continue;
 						case 4:
-							// 4 - Consultar Saldo
+							// MENU LOGADO - 4 - Consultar Saldo
 							contaBO.consultaSaldo();
 
 							continue;
 						case 5:
-							// 5 - Area Pix
+							// TODO MENU LOGADO - 5 - Area Pix
 							System.out.println(
 									"Area Pix acabou de sair do forno, mas estão muito quentes para ser servido, tente mais tarde");
 							continue;
 						case 6:
-							// 6 - Criar Conta Poupança
+							// TODO MENU LOGADO - 6 - Criar outra Conta
 							System.out.println(
-									"Criar Poupança acabou de sair do forno, mas estão muito quentes para ser servido, tente mais tarde");
-							continue;
-						case 7:
-							// 7 - Sair da Conta
-							System.out.println("Até mais!");
+									"Criar outra conta acabou de sair do forno, mas estão muito quentes para ser servido, tente mais tarde");
 							continue;
 						case 0:
+							// MENU LOGADO - 0 - Sair da conta
+							System.out.println("Até mais!");
+							i = 0;
 							break;
 						default:
 							continue;
@@ -199,13 +206,20 @@ public class StartProjetoNext {
 				} else {
 					System.out.println("Login ou senha incorretos! Tente novamente");
 				}
-
+				i = -1;
 				continue;
 			case 3:
-				System.out.println(
-						"Outras opções acabaram de sair do forno, mas estão muito quentes para serem servidas, tente mais tarde");
+				// TODO MENU PRINCIPAL - TRANSFERÊNCIA SEM FAZER LOGIN
+				Conta contaDestino = DataBase.getContaDB(util.readConsole("Informe a conta em que deseja depositar: "));
+				if (contaDestino != null) {
+					if (contaDestino.getNumeroConta() != null) {
+						Double valorDepositado = util.readConsoleDouble("Qual o valor do depósito?");
+						// contaBO.depositar(contaDestino, valorDepositado);
+					}
+				}
 				continue;
 			case 0:
+				// MENU PRINCIPAL - 0 - Sair do sistema
 				break;
 			default:
 				System.out.println("Opção Inválida");

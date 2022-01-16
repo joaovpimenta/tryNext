@@ -36,7 +36,7 @@ public class Util {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(" » ");
-		Integer typedText = read.nextInt();
+		Integer typedText = Integer.parseInt(read.nextLine()); // read.nextInt();
 
 		return typedText;
 	}
@@ -45,7 +45,7 @@ public class Util {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(texto + "\n » ");
-		Integer typedText = read.nextInt();
+		Integer typedText = Integer.parseInt(read.nextLine());
 
 		return typedText;
 	}
@@ -85,15 +85,4 @@ public class Util {
 			return null;
 		}
 	}
-
-//	public Integer readConsoleInt(Object texto) {
-//		@SuppressWarnings("resource")
-//		Scanner read = new Scanner(System.in);
-//		System.out.print(texto+"\n» ");
-//		Integer typedText = read.nextInt();
-//
-//		return typedText;
-//		
-//	}
-
 }

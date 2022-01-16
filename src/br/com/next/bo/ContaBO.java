@@ -26,7 +26,7 @@ public class ContaBO {
 		conta.setTipoConta(tipoConta);
 
 		DataBase.setContaDB(conta.getNumeroConta(), conta);
-		System.out.println("O número da sua conta é: " + conta.getNumeroConta());
+		System.out.println("O número da sua conta é: \n" + conta.getNumeroConta() + "\nE o tipo é: " + conta.getTipoConta().toString());
 
 		return conta;
 	}
@@ -67,7 +67,7 @@ public class ContaBO {
 		Double saldoDestino = contaDestino.getSaldo();
 		saldoDestino += valorDepositado;
 		contaDestino.setSaldo(saldoDestino);
-
+		//TODO Mostrar saldo poupança e corrente
 		System.out.println("\nSaldo atual: R$" + this.conta.getSaldo() + "\n");
 		this.atualizaTipo();
 
@@ -93,7 +93,7 @@ public class ContaBO {
 		}
 	}
 
-	public void consultaSaldo() {
+	public void consultaSaldo() { //TODO Mostrar saldo poupança e corrente
 		System.out.println("Cliente: " + this.conta.getCliente().getNome() + "\nConta: " + this.conta.getNumeroConta()
 				+ "\nCPF: " + this.conta.getCliente().getCpf() + "\nSaldo Atual: R$" + this.conta.getSaldo() + "\n");
 	}

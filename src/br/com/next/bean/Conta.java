@@ -1,5 +1,6 @@
 package br.com.next.bean;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Conta {
@@ -10,9 +11,7 @@ public class Conta {
 	private Double saldo;
 	private Pix pix;
 	private TipoConta tipoConta;
-	//private Date data
-
-
+	private Date dataExecucao;
 
 	public Conta() {
 
@@ -71,7 +70,21 @@ public class Conta {
 	public void setTipoConta(TipoConta tipoConta) {
 		this.tipoConta = tipoConta;
 	}
-	
-	
+
+	/**
+	 * @return Retorna o valor do atributo data de Execução de Rendimentos ou Taxas
+	 *         em Conta
+	 */
+	public Date getDataExecucao() {
+		return dataExecucao;
+	}
+
+	/**
+	 * @param dataCriacao Insere valor no atributo data de Execução de Rendimentos
+	 *                    ou Taxas em Conta
+	 */
+	public void setDataExecucao(Date dataExecucao) {
+		this.dataExecucao = dataExecucao;
+	}
 
 }

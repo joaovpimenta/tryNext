@@ -5,7 +5,7 @@ public enum TipoConta {
 	CORRENTE(1), POUPANCA(2);
 
 	private int id;
-	
+
 	TipoConta(int id) {
 		this.id = id;
 	}
@@ -13,7 +13,5 @@ public enum TipoConta {
 	public int getId() {
 		return this.id;
 	}
-	
-	
-	
+
 }

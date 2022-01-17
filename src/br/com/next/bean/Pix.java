@@ -1,17 +1,16 @@
-package br.com.next.bean; 
+package br.com.next.bean;
 
 public class Pix {
-	
-	
+
 	public TipoChavePix tipoChavePix;
-	//public Double valor;
-	//public Date data;
+	// public Double valor;
+	// public Date data;
 	public String valorChave;
 	public Boolean isAtivado;
-	//public Conta conta;
-	
+	// public Conta conta;
+
 	public void AtivarChave(TipoChavePix tipochave, String valorChave, Boolean isAtivado) {
-		
+
 	}
 
 	public TipoChavePix getTipoChavePix() {
@@ -37,7 +36,5 @@ public class Pix {
 	public void setIsAtivado(Boolean isAtivado) {
 		this.isAtivado = isAtivado;
 	}
-	
-	
-	
+
 }

@@ -71,7 +71,7 @@ public class StartProjetoNext {
 
 				String estado = "-";
 				while (validacoesBO.validaEstado(estado)) {
-					estado = util.readConsole("Informe o Estado: ");
+					estado = util.readConsole("Informe o Estado: ").toUpperCase();
 				}
 
 				String senha = "-";
@@ -139,9 +139,23 @@ public class StartProjetoNext {
 					loginSenha = util.readConsole("Digite sua senha: ");
 				}
 
-				ContaBO contaBO = new ContaBO(DataBase.returnContaByCpfSenha(loginCpf, loginSenha));
+				ContaBO contaCorrenteBO = null;
+				ContaBO contaPoupancaBO = null;
 
-				if (contaBO.getConta() != null) {
+				List<Conta> listaContas = DataBase.returnContasByCpfSenha(loginCpf, loginSenha);
+
+				for (Conta conta : listaContas) {
+
+					if (conta.getTipoConta() == TipoConta.CORRENTE) {
+						contaCorrenteBO = new ContaBO(conta);
+						continue;
+					} else {
+						contaPoupancaBO = new ContaBO(conta);
+					}
+
+				}
+
+				if (contaCorrenteBO != null || contaPoupancaBO != null) {
 
 					while (i != 0) {
 
@@ -156,15 +170,26 @@ public class StartProjetoNext {
 							if (contaDestino != null) {
 								if (contaDestino.getNumeroConta() != null) {
 									Double valorDepositado = util.readConsoleDouble("Qual o valor do depósito?");
-									contaBO.depositar(contaDestino, valorDepositado);
+									contaCorrenteBO.depositar(contaDestino, valorDepositado, true);
 								}
 							}
 							continue;
 						case 2:
 							// MENU LOGADO - 2 - Realizar Saque
 							Double valorSaque = util.readConsoleDouble("Qual o valor do saque?");
-							contaBO.sacar(valorSaque);
-
+							if (contaCorrenteBO != null && contaPoupancaBO != null) {
+								int escolhaConta = util
+										.readConsoleInt("Qual conta deseja sacar? (1 - CORRENTE, 2 - POUPANÇA)");
+								if (escolhaConta == 1) {
+									contaCorrenteBO.sacar(valorSaque);
+								} else {
+									contaPoupancaBO.sacar(valorSaque);
+								}
+							} else if (contaCorrenteBO != null) {
+								contaCorrenteBO.sacar(valorSaque);
+							} else {
+								contaPoupancaBO.sacar(valorSaque);
+							}
 							continue;
 						case 3:
 							// MENU LOGADO - 3 - Realizar Transferência
@@ -173,14 +198,36 @@ public class StartProjetoNext {
 							if (contaDestino != null) {
 								if (contaDestino.getNumeroConta() != null) {
 									Double valor = util.readConsoleDouble("Qual o valor da transferência?");
-									contaBO.transferir(contaDestino, valor);
+
+									if (contaCorrenteBO != null && contaPoupancaBO != null) {
+										int escolhaConta = util.readConsoleInt(
+												"De qual conta deseja tranferir? (1 - CORRENTE, 2 - POUPANÇA)");
+										if (escolhaConta == 1) {
+											contaCorrenteBO.transferir(contaDestino, valor);
+										} else {
+											contaPoupancaBO.transferir(contaDestino, valor);
+										}
+									} else if (contaCorrenteBO != null) {
+										contaCorrenteBO.transferir(contaDestino, valor);
+									} else {
+										contaPoupancaBO.transferir(contaDestino, valor);
+									}
+
 								}
 							}
 							continue;
 						case 4:
 							// MENU LOGADO - 4 - Consultar Saldo
-							contaBO.consultaSaldo();
+							if (contaCorrenteBO != null && contaPoupancaBO != null) {
 
+								contaCorrenteBO.consultaSaldo();
+								contaPoupancaBO.consultaSaldo();
+
+							} else if (contaCorrenteBO != null) {
+								contaCorrenteBO.consultaSaldo();
+							} else {
+								contaPoupancaBO.consultaSaldo();
+							}
 							continue;
 						case 5:
 							// TODO MENU LOGADO - 5 - Area Pix
@@ -214,7 +261,8 @@ public class StartProjetoNext {
 				if (contaDestino != null) {
 					if (contaDestino.getNumeroConta() != null) {
 						Double valorDepositado = util.readConsoleDouble("Qual o valor do depósito?");
-						// contaBO.depositar(contaDestino, valorDepositado);
+						ContaBO contaDestinoBO = new ContaBO(contaDestino);
+						contaDestinoBO.depositar(contaDestino, valorDepositado, false);
 					}
 				}
 				continue;

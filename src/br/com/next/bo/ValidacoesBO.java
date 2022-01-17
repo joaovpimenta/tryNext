@@ -40,7 +40,7 @@ public class ValidacoesBO {
 
 	public boolean validaEstado(String estado) {
 
-		if (!estado.matches("[a-zA-Z ]{2}")) {
+		if (!estado.matches("[A-Z ]{2}")) {
 			return true;
 		} else {
 			return false;
@@ -57,7 +57,7 @@ public class ValidacoesBO {
 		}
 
 	}
-	
+
 	public boolean validaData(String data) {
 
 		if (!data.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {

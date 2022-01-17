@@ -17,7 +17,7 @@ public class ClienteBO {
 		Cliente cliente = new Cliente();
 		cliente.setCpf(cpf);
 		cliente.setNome(nome);
-		cliente.setDataNascimento(dataNascimento);;
+		cliente.setDataNascimento(dataNascimento);
 		cliente.setTipo(TipoCliente.COMUM);
 		cliente.setEndereco(endereco);
 		cliente.setSenha(senha);

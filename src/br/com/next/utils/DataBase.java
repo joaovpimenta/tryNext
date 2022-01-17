@@ -28,30 +28,33 @@ public class DataBase {
 
 	}
 
-	public static Conta returnContaByCpfSenha(String cpf, String senha) {
+	public static List<Conta> returnContasByCpfSenha(String cpf, String senha) {
+		List<Conta> listaContas = new ArrayList<Conta>();
 
 		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
 
-			if (conta.getValue().getCliente().getCpf().equals(cpf) && conta.getValue().getCliente().getSenha().equals(senha)) {
+			if (conta.getValue().getCliente().getCpf().equals(cpf)
+					&& conta.getValue().getCliente().getSenha().equals(senha)) {
+				listaContas.add(conta.getValue());
 
-				return conta.getValue();
+				return listaContas;
 			}
 		}
 		return null;
 	}
-	
+
 	public static List<Conta> returnContasByCpf(String cpf) {
 		List<Conta> listaContas = new ArrayList<Conta>();
-		
+
 		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
-			
+
 			if (conta.getValue().getCliente().getCpf().equals(cpf)) {
 				listaContas.add(conta.getValue());
-			}	
+			}
 		}
-		
+
 		return listaContas;
-		
+
 	}
 
 }

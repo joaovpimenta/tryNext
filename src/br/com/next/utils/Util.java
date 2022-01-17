@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Util {
 
-	public String readConsole() {
+	public static String readConsole() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(" » ");
@@ -18,7 +18,7 @@ public class Util {
 	}
 
 	// METODO QUE LÊ O CONSOLE E RETORNA UMA STRING(TEXTO)
-	public String readConsole(String texto) {
+	public static String readConsole(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(texto + "\n » ");
@@ -28,11 +28,11 @@ public class Util {
 
 	}
 
-	public void writeConsole(String texto) {
+	public static void writeConsole(String texto) {
 		System.out.print(texto);
 	}
 
-	public Integer readConsoleInt() {
+	public static Integer readConsoleInt() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(" » ");
@@ -41,7 +41,7 @@ public class Util {
 		return typedText;
 	}
 
-	public Integer readConsoleInt(String texto) {
+	public static Integer readConsoleInt(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(texto + "\n » ");
@@ -50,7 +50,7 @@ public class Util {
 		return typedText;
 	}
 
-	public Double readConsoleDouble() {
+	public static Double readConsoleDouble() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		Double typedText = read.nextDouble();
@@ -58,7 +58,7 @@ public class Util {
 		return typedText;
 	}
 
-	public Double readConsoleDouble(String texto) {
+	public static Double readConsoleDouble(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(texto + "\n » ");
@@ -67,7 +67,7 @@ public class Util {
 		return typedText;
 	}
 
-	public Double writeConsole(Double saldo) {
+	public static Double writeConsole(Double saldo) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print(saldo + "\n » ");
@@ -76,7 +76,7 @@ public class Util {
 		return typedText;
 	}
 
-	public Date readConsoleData(String data) {
+	public static Date readConsoleData(String data) {
 		SimpleDateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			return dataFormat.parse(data);

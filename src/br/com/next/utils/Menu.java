@@ -4,7 +4,7 @@ public class Menu {
 
 	Util util = new Util();
 
-	public void menuPrincipal() {
+	public static void menuPrincipal() {
 
 		System.out.println("+——————————————————————————————————————————+");
 		System.out.println("|             × Menu Inicial ×             |");
@@ -17,7 +17,7 @@ public class Menu {
 
 	}
 
-	public void menuCriacaoConta() {
+	public static void menuCriacaoConta() {
 
 		System.out.println("+——————————————————————————————————————————+");
 		System.out.println("|           × Criação de conta ×           |");
@@ -29,7 +29,7 @@ public class Menu {
 
 	}
 
-	public void menuLogado() {
+	public static void menuLogado() {
 
 		System.out.println("+——————————————————————————————————————————+");
 		System.out.println("|            × Seja Bem-Vindo ×            |");
@@ -51,7 +51,21 @@ public class Menu {
 		System.out.println("+——————————————————————————————————————————+");
 		System.out.println("| » 1 - Consultar Chave                    |");
 		System.out.println("| » 2 - Cadastrar Chave                    |");
+		System.out.println("| » 3 - Transferência via Pix              |");
 		System.out.println("| » 0 - Voltar                             |");
 		System.out.println("+——————————————————————————————————————————+");
 	}
+
+	public static void menuCadastroPix() {
+		System.out.println("+——————————————————————————————————————————+");
+		System.out.println("|             × Cadastro Pix ×             |");
+		System.out.println("+——————————————————————————————————————————+");
+		System.out.println("| » 1 - Cadastrar Chave CPF                |");
+		System.out.println("| » 2 - Cadastrar Chave EMAIL              |");
+		System.out.println("| » 3 - Cadastrar Chave TELEFONE           |");
+		System.out.println("| » 4 - Cadastrar Chave ALEATÓRIA          |");
+		System.out.println("| » 0 - Voltar                             |");
+		System.out.println("+——————————————————————————————————————————+");
+	}
+
 }

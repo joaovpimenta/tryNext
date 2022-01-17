@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.next.bean.Conta;
+import br.com.next.bean.Pix;
 
 public class DataBase {
 
@@ -54,6 +55,23 @@ public class DataBase {
 		}
 
 		return listaContas;
+
+	}
+
+	public static Conta returnContasByChavePix(String chavePix) {
+
+		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
+
+			Pix pix = conta.getValue().getPix();
+			if (pix != null) {
+				if (pix.getValorChave().equals(chavePix)) {
+					return conta.getValue();
+				}
+			}
+		}
+
+		System.out.println("Chave Pix inválida");
+		return null;
 
 	}
 

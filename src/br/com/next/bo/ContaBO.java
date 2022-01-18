@@ -194,4 +194,7 @@ public class ContaBO {
 		DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
 	}
 
+	public Cliente getCliente() {
+		return this.conta.getCliente();
+	}
 }

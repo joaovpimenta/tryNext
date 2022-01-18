@@ -313,10 +313,74 @@ public class StartProjetoNext {
 							}
 
 							continue;
-						case 6:
-							// TODO MENU LOGADO - 6 - Criar outra Conta
-							System.out.println(
-									"Criar outra conta acabou de sair do forno, mas estão muito quentes para ser servido, tente mais tarde");
+						case 6: //TODO MENU LOGADO - 6 - Cartões
+							Menu.menuCartoes();
+							i = Util.readConsoleInt();
+
+							switch (i) {
+							case 1: //TODO Cartão de Crédito
+								Menu.menuCartaoCredito();
+								i = Util.readConsoleInt();
+
+								continue;
+							case 2: //TODO Cartão de Débito
+								Menu.menuCartaoDebito();
+								i = Util.readConsoleInt();
+
+								continue;
+							case 3: //TODO Solicitar Cartão
+								Menu.menuSolicitarCartao();
+								i = Util.readConsoleInt();
+
+								continue;
+							case 0:
+								// MENU Cartões - 0 - Voltar ao menu anterior
+								break;
+							default:
+								Util.writeConsole("Opção Inválida!\n");
+								continue;
+							}
+
+							continue;
+						case 7:
+							// MENU LOGADO - 7 - Criar outra Conta
+							i = -1;
+
+							while (i != 0) {
+								Menu.menuCriacaoConta();
+								i = Util.readConsoleInt();
+
+								listaContas = DataBase.returnContasByCpf(loginCpf);
+
+								for (Conta contaIteradora : listaContas) {
+
+									if (i == contaIteradora.getTipoConta().getId()) {
+										Util.writeConsole("Essa conta já existe!\n" + "A conta existente é: \n"
+												+ contaIteradora.getNumeroConta() + "\n");
+										i = -1;
+										break;
+									}
+
+								}
+
+								switch (i) {
+								case 1:
+									// MENU CRIAÇÃO DE CONTA - 1 - CONTA CORRENTE
+									new ContaBO(contaPoupancaBO.getCliente(), TipoConta.CORRENTE);
+									continue;
+								case 2:
+									// MENU CRIAÇÃO DE CONTA - 2 - CONTA POUPANÇA
+									new ContaBO(contaCorrenteBO.getCliente(), TipoConta.POUPANCA);
+									continue;
+								case 0:
+									// MENU LOGADO - 0 - Voltar ao menu anterior
+									break;
+								default:
+									Util.writeConsole("Opção Inválida!\n");
+									continue;
+								}
+
+							}
 							continue;
 						case 0:
 							// MENU LOGADO - 0 - Sair da conta

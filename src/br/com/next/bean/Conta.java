@@ -12,6 +12,8 @@ public class Conta {
 	private Pix pix;
 	private TipoConta tipoConta;
 	private Date dataExecucao;
+	private CartaoCredito cartaoCredito;
+	private CartaoDebito cartaoDebito;
 
 	public Conta() {
 
@@ -85,6 +87,34 @@ public class Conta {
 	 */
 	public void setDataExecucao(Date dataExecucao) {
 		this.dataExecucao = dataExecucao;
+	}
+
+	/**
+	 * @return the cartaoCredito
+	 */
+	public CartaoCredito getCartaoCredito() {
+		return cartaoCredito;
+	}
+
+	/**
+	 * @param cartaoCredito the cartaoCredito to set
+	 */
+	public void setCartaoCredito(CartaoCredito cartaoCredito) {
+		this.cartaoCredito = cartaoCredito;
+	}
+
+	/**
+	 * @return the cartaoDebito
+	 */
+	public CartaoDebito getCartaoDebito() {
+		return cartaoDebito;
+	}
+
+	/**
+	 * @param cartaoDebito the cartaoDebito to set
+	 */
+	public void setCartaoDebito(CartaoDebito cartaoDebito) {
+		this.cartaoDebito = cartaoDebito;
 	}
 
 }

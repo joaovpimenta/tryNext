@@ -104,7 +104,7 @@ public class Util {
 
 	public static void wait(int ms) {
 		try {
-			Thread.sleep(ms);
+			 Thread.sleep(ms);
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
 		}
@@ -118,50 +118,41 @@ public class Util {
 
 	}
 
-	public static void contadorPorcentagem(int porcentagem) {
+	public static String contadorPorcentagem(int porcentagem) {
 
-		String espacamento = "";
-		if (porcentagem < 100) {
-			espacamento = (porcentagem < 10) ? "  " : " ";
-		}
-		System.out.print(espacamento + porcentagem + "%");
-
+		String espacamento = (porcentagem < 100) ? (porcentagem < 10) ? "  " : " " : "";
+		String retornoString = espacamento + porcentagem + "%";
+		
+		return retornoString;
 	}
 
-	public static void loading() {
-
-		int quadrados = 0;
-		int espacos = 21;
-		int porcentagem = 0;
+	public static void loading(int totalQuadrados) {
+		System.out.print("╔══════════════════════════════════════════╗\n");
 		
-		System.out.println("");
-		System.out.println("╔══════════════════════════════════════════╗");
+		for (int porcentagem = 0; porcentagem <= 100; porcentagem+= 4.762) {
 
-		while (quadrados <= 21) {
-
-			porcentagem = (int) Math.round(4.76 * quadrados);
-
-			if (porcentagem < 100) {
-				System.out.print("║ Carregando: [");
-			} else {
-				System.out.print("║ Concluído:  [");
-			}
+			Integer quadrados = (int) Math.round(porcentagem*totalQuadrados/100);
+			Integer espacos = totalQuadrados-quadrados;
+			
+			System.out.print((porcentagem < 100) ? "║ Carregando: [" : "║ Concluído:  [");
 
 			repeat(quadrados, "■", 5, 15);
 			repeat(espacos, " ", 0, 0);
-			System.out.print("] ");
-			contadorPorcentagem(porcentagem);
-			System.out.print(" ║");
+			
+			System.out.print("] " + contadorPorcentagem(porcentagem) + " ║");
 
-			if (quadrados < 21) {
+			if (quadrados < totalQuadrados) {
 				repeat(44, "\b", 0, 0);
 			}
-
-			quadrados++;
-			espacos--;
-
+			
 		}
-		System.out.println("\n╚══════════════════════════════════════════╝");
+		System.out.print("\n╚══════════════════════════════════════════╝");
+	}
+	
+	public static void printLoading(int totalQuadrados) {
+		System.out.println("╔══════════════════════════════════════════╗");
+		loading(totalQuadrados);
+		
 
 	}
 
@@ -172,47 +163,20 @@ public class Util {
 
 		while (i < texto.length()) {
 
-			boolean quebrarlinha = false;
-
-			if (i > 0) {
-				quebrarlinha = ((i / 40) - (i / 40.0) == 0) ? true : false;
-			}
-
-			if (quebrarlinha) {
-				System.out.print(" ║");
-				System.out.print("\n║ ");
+			if ((i > 0) ? ((i / 40) - (i / 40.0) == 0) ? true : false : false) {
+				System.out.print(" ║\n║ ");
 				linhas++;
 			}
 
-			char c = texto.charAt(i);
-			System.out.print(c);
-			wait(randInt(10, 30));
-
+			System.out.print(texto.charAt(i));
 			i++;
+			
+			wait(randInt(10, 30));
 		}
+		
 		repeat(((40 * linhas) - i), " ", 0, 0);
 		System.out.print(" ║\n");
 
-	}
-
-	public static void textoTrimBugado(String texto) {
-
-		int i = 0;
-
-		while (i < texto.length()) {
-			char c = texto.charAt(i);
-			System.out.print(c);
-			wait(randInt(10, 30));
-
-			if (i == 39) {
-				System.out.print("\b" + "- ║");
-				System.out.print("\n║ " + c);
-			}
-			i++;
-		}
-		repeat((40 - i), " ", 0, 0);
-		System.out.print(" ║");
-		System.out.print("\n║ ");
 	}
 
 }

@@ -29,9 +29,9 @@ public class StartProjetoNext {
 
 	public static void main(String[] args) {
 
-		Util.loading();
-
 		ValidacoesBO validacoesBO = new ValidacoesBO();
+		
+		Util.loading(21);
 
 		int i = -1;
 
@@ -89,7 +89,7 @@ public class StartProjetoNext {
 
 				Cliente cliente = clienteBO.cadastrarCliente(cpf, nome, dataNascimento, endereco, senha);
 				
-				Util.loading();
+				Util.loading(21);
 				
 				i = -1;
 
@@ -114,12 +114,12 @@ public class StartProjetoNext {
 					case 1:
 						// »MENU CRIAÇÃO DE CONTA - 1 - CONTA CORRENTE
 						new ContaBO(cliente, TipoConta.CORRENTE);
-						Util.loading();
+						Util.printLoading(21);
 						continue;
 					case 2:
 						// »MENU CRIAÇÃO DE CONTA - 2 - CONTA POUPANÇA
 						new ContaBO(cliente, TipoConta.POUPANCA);
-						Util.loading();
+						Util.printLoading(21);
 						continue;
 					case 0:
 						// »MENU CRIAÇÃO DE CONTA - 0 - VOLTAR AO MENU ANTERIOR

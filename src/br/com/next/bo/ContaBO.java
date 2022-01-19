@@ -11,7 +11,6 @@ import br.com.next.bean.Pix;
 import br.com.next.bean.TipoCliente;
 import br.com.next.bean.TipoConta;
 import br.com.next.utils.DataBase;
-import br.com.next.utils.Util;
 
 public class ContaBO {
 
@@ -26,7 +25,6 @@ public class ContaBO {
 	}
 
 	private Conta novaConta(Cliente cliente, TipoConta tipoConta) {
-		Util.loading();
 		
 		Conta conta = new Conta();
 		conta.setCliente(cliente);
@@ -46,7 +44,6 @@ public class ContaBO {
 	}
 
 	public boolean transferir(Conta contaDestino, double valor) {
-		Util.loading();
 		
 		double saldo = this.conta.getSaldo();
 		double saldoDestino = contaDestino.getSaldo();
@@ -80,7 +77,6 @@ public class ContaBO {
 	}
 
 	public boolean transferirViaPix(Conta contaDestino, double valorPix) {
-		Util.loading();
 		
 		double saldo = this.conta.getSaldo();
 		double saldoDestino = contaDestino.getSaldo();
@@ -112,7 +108,6 @@ public class ContaBO {
 	 * @param valorDepositado Quanto será depositado na conta
 	 */
 	public void depositar(Conta contaDestino, Double valorDepositado, Boolean isLogged) {
-		Util.loading();
 
 		Double saldoDestino = contaDestino.getSaldo();
 		saldoDestino += valorDepositado;
@@ -146,7 +141,6 @@ public class ContaBO {
 	}
 
 	public void consultaSaldo() { // TODO Mostrar saldo poupança e corrente
-		Util.loading();
 		
 		System.out.println("Cliente: " + this.conta.getCliente().getNome());
 		System.out.println("Conta: " + this.conta.getNumeroConta() + "\nCPF: " + this.conta.getCliente().getCpf());

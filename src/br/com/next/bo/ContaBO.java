@@ -3,12 +3,15 @@ package br.com.next.bo;
 import java.util.Calendar;
 import java.util.Date;
 
+import br.com.next.bean.CartaoCredito;
+import br.com.next.bean.CartaoDebito;
 import br.com.next.bean.Cliente;
 import br.com.next.bean.Conta;
 import br.com.next.bean.Pix;
 import br.com.next.bean.TipoCliente;
 import br.com.next.bean.TipoConta;
 import br.com.next.utils.DataBase;
+import br.com.next.utils.Util;
 
 public class ContaBO {
 
@@ -23,6 +26,8 @@ public class ContaBO {
 	}
 
 	private Conta novaConta(Cliente cliente, TipoConta tipoConta) {
+		Util.loading();
+		
 		Conta conta = new Conta();
 		conta.setCliente(cliente);
 		conta.setNumeroConta();
@@ -33,13 +38,16 @@ public class ContaBO {
 		conta.setDataExecucao(dataExecucao);
 
 		DataBase.setContaDB(conta.getNumeroConta(), conta);
-		System.out.println("O n˙mero da sua conta È: \n" + conta.getNumeroConta() + "\nE o tipo È: "
+		
+		System.out.println("O n√∫mero da sua conta √©: \n" + conta.getNumeroConta() + "\nE o tipo √©: "
 				+ conta.getTipoConta().toString());
 
 		return conta;
 	}
 
 	public boolean transferir(Conta contaDestino, double valor) {
+		Util.loading();
+		
 		double saldo = this.conta.getSaldo();
 		double saldoDestino = contaDestino.getSaldo();
 
@@ -48,14 +56,14 @@ public class ContaBO {
 				saldo -= (valor + 5.6);
 				saldoDestino += valor;
 			} else {
-				System.out.println("O valor informado acrescido de taxa È superior ao seu saldo atual.\n");
+				System.out.println("O valor informado acrescido de taxa √© superior ao seu saldo atual.\n");
 				return false;
 			}
 		} else if (saldo >= valor) {
 			saldo -= valor;
 			saldoDestino += valor;
 		} else {
-			System.out.println("O valor informado È superior ao seu saldo atual.\n");
+			System.out.println("O valor informado √© superior ao seu saldo atual.\n");
 			return false;
 		}
 
@@ -72,6 +80,8 @@ public class ContaBO {
 	}
 
 	public boolean transferirViaPix(Conta contaDestino, double valorPix) {
+		Util.loading();
+		
 		double saldo = this.conta.getSaldo();
 		double saldoDestino = contaDestino.getSaldo();
 
@@ -79,7 +89,7 @@ public class ContaBO {
 			saldo -= valorPix;
 			saldoDestino += valorPix;
 		} else {
-			System.out.println("O valor informado È superior ao seu saldo atual.\n");
+			System.out.println("O valor informado √© superior ao seu saldo atual.\n");
 			return false;
 		}
 
@@ -96,17 +106,18 @@ public class ContaBO {
 	}
 
 	/**
-	 * Esse mÈtodo deposita um valor na conta informada
+	 * Esse m√©todo deposita um valor na conta informada
 	 * 
-	 * @param contaDestino    Em qual conta ser· depositado
-	 * @param valorDepositado Quanto ser· depositado na conta
+	 * @param contaDestino    Em qual conta ser√° depositado
+	 * @param valorDepositado Quanto ser√° depositado na conta
 	 */
 	public void depositar(Conta contaDestino, Double valorDepositado, Boolean isLogged) {
+		Util.loading();
 
 		Double saldoDestino = contaDestino.getSaldo();
 		saldoDestino += valorDepositado;
 		contaDestino.setSaldo(saldoDestino);
-		// TODO Mostrar saldo poupanÁa e corrente
+		// TODO Mostrar saldo poupan√ßa e corrente
 		if (isLogged) {
 			System.out.println("\nSaldo atual: R$" + this.conta.getSaldo() + "\n");
 		}
@@ -129,14 +140,17 @@ public class ContaBO {
 
 			return true;
 		} else {
-			System.out.println("O valor informado È superior ao seu saldo atual.\n");
+			System.out.println("O valor informado √© superior ao seu saldo atual.\n");
 			return false;
 		}
 	}
 
-	public void consultaSaldo() { // TODO Mostrar saldo poupanÁa e corrente
-		System.out.println("Cliente: " + this.conta.getCliente().getNome() + "\nConta: " + this.conta.getNumeroConta()
-				+ "\nCPF: " + this.conta.getCliente().getCpf() + "\nSaldo Atual: R$" + this.conta.getSaldo() + "\n");
+	public void consultaSaldo() { // TODO Mostrar saldo poupan√ßa e corrente
+		Util.loading();
+		
+		System.out.println("Cliente: " + this.conta.getCliente().getNome());
+		System.out.println("Conta: " + this.conta.getNumeroConta() + "\nCPF: " + this.conta.getCliente().getCpf());
+		System.out.println("\nSaldo Atual: R$" + this.conta.getSaldo() + "\n");
 	}
 
 	public void atualizaTipo() {
@@ -178,7 +192,7 @@ public class ContaBO {
 				this.conta.setSaldo(saldo);
 				DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
 			} else {
-				System.out.println("Conta sem Tipo n„o tem taxas nem rendimentos\n\n");
+				System.out.println("Conta sem Tipo n√£o tem taxas nem rendimentos\n\n");
 			}
 
 			Date dataExecucao = this.avancaMes();
@@ -196,5 +210,15 @@ public class ContaBO {
 
 	public Cliente getCliente() {
 		return this.conta.getCliente();
+	}
+
+	public void adicionarCartaoCredito(CartaoCredito cartaoCredito) {
+		this.conta.setCartaoCredito(cartaoCredito);
+		DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
+	}
+
+	public void adicionarCartaoDebito(CartaoDebito cartaoDebito) {
+		this.conta.setCartaoDebito(cartaoDebito);
+		DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
 	}
 }

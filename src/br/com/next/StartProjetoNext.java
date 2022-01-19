@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import br.com.next.bean.CartaoCredito;
+import br.com.next.bean.CartaoDebito;
 import br.com.next.bean.Cliente;
 import br.com.next.bean.Conta;
 import br.com.next.bean.Endereco;
 import br.com.next.bean.Pix;
 import br.com.next.bean.TipoChavePix;
 import br.com.next.bean.TipoConta;
+import br.com.next.bo.CartaoCreditoBO;
+import br.com.next.bo.CartaoDebitoBO;
 import br.com.next.bo.ClienteBO;
 import br.com.next.bo.ContaBO;
 import br.com.next.bo.ValidacoesBO;
@@ -24,6 +28,8 @@ public class StartProjetoNext {
 	public static Map<String, Cliente> mapCliente = new HashMap<String, Cliente>();
 
 	public static void main(String[] args) {
+		
+		Util.loading();
 
 		ValidacoesBO validacoesBO = new ValidacoesBO();
 
@@ -35,12 +41,11 @@ public class StartProjetoNext {
 			i = Util.readConsoleInt();
 
 			switch (i) {
-			case 1:
-				// MENU PRINCIPAL - 1 - CRIAR CONTA
+			case 1: //MENU PRINCIPAL - 1 - CRIAR CONTA
 				ClienteBO clienteBO = new ClienteBO();
 				String cpf = "-";
 				while (validacoesBO.validaCPF(cpf)) {
-					cpf = Util.readConsole("Digite o n˙mero de CPF: ");
+					cpf = Util.readConsole("Digite o n√∫mero de CPF: ");
 				}
 
 				String nome = Util.readConsole("Digite o seu nome completo: ");
@@ -59,7 +64,7 @@ public class StartProjetoNext {
 
 				String numeroLogradouro = "-";
 				while (validacoesBO.validaNumero(numeroLogradouro)) {
-					numeroLogradouro = Util.readConsole("Informe o n˙mero do Logradouro: ");
+					numeroLogradouro = Util.readConsole("Informe o n√∫mero do Logradouro: ");
 				}
 
 				String cep = "-";
@@ -83,7 +88,9 @@ public class StartProjetoNext {
 				Endereco endereco = new Endereco(logradouro, numeroLogradouro, cep, bairro, cidade, estado);
 
 				Cliente cliente = clienteBO.cadastrarCliente(cpf, nome, dataNascimento, endereco, senha);
-
+				
+				Util.loading();
+				
 				i = -1;
 
 				while (i != 0) {
@@ -95,7 +102,7 @@ public class StartProjetoNext {
 					for (Conta contaIteradora : listaContas) {
 
 						if (i == contaIteradora.getTipoConta().getId()) {
-							Util.writeConsole("Essa conta j· existe!\n" + "A conta existente È: \n"
+							Util.writeConsole("Essa conta j√° existe!\n" + "A conta existente √©: \n"
 									+ contaIteradora.getNumeroConta() + "\n");
 							i = -1;
 							break;
@@ -105,28 +112,29 @@ public class StartProjetoNext {
 
 					switch (i) {
 					case 1:
-						// MENU CRIA«√O DE CONTA - 1 - CONTA CORRENTE
+						// MENU CRIA√á√ÉO DE CONTA - 1 - CONTA CORRENTE
 						new ContaBO(cliente, TipoConta.CORRENTE);
+						Util.loading();
 						continue;
 					case 2:
-						// MENU CRIA«√O DE CONTA - 2 - CONTA POUPAN«A
+						// MENU CRIA√á√ÉO DE CONTA - 2 - CONTA POUPAN√áA
 						new ContaBO(cliente, TipoConta.POUPANCA);
+						Util.loading();
 						continue;
 					case 0:
-						// MENU LOGADO - 0 - Voltar ao menu anterior
+						// MENU CRIA√á√ÉO DE CONTA - 0 - VOLTAR AO MENU ANTERIOR
 						break;
 					default:
-						Util.writeConsole("OpÁ„o Inv·lida!\n");
+						Util.writeConsole("Op√ß√£o Inv√°lida!\n");
 						continue;
 					}
 
 				}
 
 				i = -1;
-				System.out.println("Cadastro Realizado com sucesso!");
 
 				continue;
-			case 2:
+			case 2: // MENU PRINCIPAL - LOGIN
 
 				i = -1;
 
@@ -139,7 +147,7 @@ public class StartProjetoNext {
 				while (validacoesBO.validaSenha(loginSenha)) {
 					loginSenha = Util.readConsole("Digite sua senha: ");
 				}
-
+				
 				ContaBO contaCorrenteBO = null;
 				ContaBO contaPoupancaBO = null;
 
@@ -164,80 +172,99 @@ public class StartProjetoNext {
 						i = Util.readConsoleInt();
 
 						switch (i) {
-						case 1:
-							// MENU LOGADO - 1 - Realizar DepÛsito
-							Conta contaDestino = DataBase
-									.getContaDB(Util.readConsole("Informe a conta em que deseja depositar: "));
-							if (contaDestino != null) {
-								if (contaDestino.getNumeroConta() != null) {
-									Double valorDepositado = Util.readConsoleDouble("Qual o valor do depÛsito?");
-									contaCorrenteBO.depositar(contaDestino, valorDepositado, true);
+						case 1: // MENU LOGADO - 1 - REALIZAR TRANSA√á√ïES
+
+							while (i != 0) {
+								Menu.menuTransacoes();
+								i = Util.readConsoleInt();
+
+								switch (i) {
+								case 1:
+									// MENU TRANSA√á√ïES - 1 - REALIZAR DEP√ìSITO
+									Conta contaDestino = DataBase.getContaDB(
+											Util.readConsoleInt("Informe a conta em que deseja depositar: "));
+									if (contaDestino != null) {
+										if (contaDestino.getNumeroConta() != null) {
+											Double valorDepositado = Util
+													.readConsoleDouble("Qual o valor do dep√≥sito?");
+											contaCorrenteBO.depositar(contaDestino, valorDepositado, true);
+										}
+									}
+									continue;
+								case 2:
+									// MENU TRANSA√á√ïES - 2 - REALIZAR SAQUE
+									Double valorSaque = Util.readConsoleDouble("Qual o valor do saque?");
+									if (contaCorrenteBO != null && contaPoupancaBO != null) {
+										int escolhaConta = Util.readConsoleInt(
+												"Qual conta deseja sacar? (1 - CORRENTE, 2 - POUPAN√áA)");
+										if (escolhaConta == 1) {
+											contaCorrenteBO.sacar(valorSaque);
+										} else {
+											contaPoupancaBO.sacar(valorSaque);
+										}
+									} else if (contaCorrenteBO != null) {
+										contaCorrenteBO.sacar(valorSaque);
+									} else {
+										contaPoupancaBO.sacar(valorSaque);
+									}
+									continue;
+								case 3:
+									// MENU TRANSA√á√ïES - 3 - REALIZAR TRANSFER√äNCIA
+									contaDestino = DataBase.getContaDB(
+											Util.readConsoleInt("Informe a conta para qual deseja transferir: "));
+									if (contaDestino != null) {
+										if (contaDestino.getNumeroConta() != null) {
+											Double valor = Util.readConsoleDouble("Qual o valor da transfer√™ncia?");
+
+											if (contaCorrenteBO != null && contaPoupancaBO != null) {
+												int escolhaConta = Util.readConsoleInt(
+														"De qual conta deseja tranferir? (1 - CORRENTE, 2 - POUPAN√áA)");
+												if (escolhaConta == 1) {
+													contaCorrenteBO.transferir(contaDestino, valor);
+												} else {
+													contaPoupancaBO.transferir(contaDestino, valor);
+												}
+											} else if (contaCorrenteBO != null) {
+												contaCorrenteBO.transferir(contaDestino, valor);
+											} else {
+												contaPoupancaBO.transferir(contaDestino, valor);
+											}
+
+										}
+									}
+									continue;
+								case 0:
+									// MENU TRANSA√á√ïES - 0 - VOLTAR AO MENU ANTERIOR
+									break;
+
+								default:
+									Util.writeConsole("Op√ß√£o Inv√°lida!\n");
+									continue;
 								}
 							}
+							i = -1;
 							continue;
 						case 2:
-							// MENU LOGADO - 2 - Realizar Saque
-							Double valorSaque = Util.readConsoleDouble("Qual o valor do saque?");
+							// MENU LOGADO - 2 - CONSULTAR SALDO
 							if (contaCorrenteBO != null && contaPoupancaBO != null) {
-								int escolhaConta = Util
-										.readConsoleInt("Qual conta deseja sacar? (1 - CORRENTE, 2 - POUPAN«A)");
-								if (escolhaConta == 1) {
-									contaCorrenteBO.sacar(valorSaque);
-								} else {
-									contaPoupancaBO.sacar(valorSaque);
-								}
+
+								contaCorrenteBO.consultaSaldo();
+								contaPoupancaBO.consultaSaldo();
+
 							} else if (contaCorrenteBO != null) {
-								contaCorrenteBO.sacar(valorSaque);
+								contaCorrenteBO.consultaSaldo();
 							} else {
-								contaPoupancaBO.sacar(valorSaque);
+								contaPoupancaBO.consultaSaldo();
 							}
 							continue;
 						case 3:
-							// MENU LOGADO - 3 - Realizar TransferÍncia
-							contaDestino = DataBase
-									.getContaDB(Util.readConsole("Informe a conta para qual deseja transferir: "));
-							if (contaDestino != null) {
-								if (contaDestino.getNumeroConta() != null) {
-									Double valor = Util.readConsoleDouble("Qual o valor da transferÍncia?");
-
-									if (contaCorrenteBO != null && contaPoupancaBO != null) {
-										int escolhaConta = Util.readConsoleInt(
-												"De qual conta deseja tranferir? (1 - CORRENTE, 2 - POUPAN«A)");
-										if (escolhaConta == 1) {
-											contaCorrenteBO.transferir(contaDestino, valor);
-										} else {
-											contaPoupancaBO.transferir(contaDestino, valor);
-										}
-									} else if (contaCorrenteBO != null) {
-										contaCorrenteBO.transferir(contaDestino, valor);
-									} else {
-										contaPoupancaBO.transferir(contaDestino, valor);
-									}
-
-								}
-							}
-							continue;
-						case 4:
-							// MENU LOGADO - 4 - Consultar Saldo
-							if (contaCorrenteBO != null && contaPoupancaBO != null) {
-
-								contaCorrenteBO.consultaSaldo();
-								contaPoupancaBO.consultaSaldo();
-
-							} else if (contaCorrenteBO != null) {
-								contaCorrenteBO.consultaSaldo();
-							} else {
-								contaPoupancaBO.consultaSaldo();
-							}
-							continue;
-						case 5:
-							// MENU LOGADO - 5 - Area Pix
+							// MENU LOGADO - 3 - √ÅREA PIX
 							Menu.menuPix();
 							i = Util.readConsoleInt();
 							switch (i) {
 							case 1:
 								System.out.println(
-										"Consultar Chave Pix acabou de sair do forno, mas est· muito quente para ser servido, tente mais tarde");
+										"Consultar Chave Pix acabou de sair do forno, mas est√° muito quente para ser servido, tente mais tarde");
 								continue;
 							case 2:
 
@@ -248,53 +275,53 @@ public class StartProjetoNext {
 								i = Util.readConsoleInt();
 
 								switch (i) {
-								case 1: // CPF
+								case 1: // MENU CADASTRO CHAVE - 1 - CPF
 									String chaveCpf = "-";
 									while (validacoesBO.validaCPF(chaveCpf)) {
-										chaveCpf = Util.readConsole("Digite o n˙mero de CPF: ");
+										chaveCpf = Util.readConsole("Digite o n√∫mero de CPF: ");
 									}
 									pix.setTipoChavePix(TipoChavePix.CPF);
 									pix.setValorChave(chaveCpf);
 									continue;
-								case 2: // EMAIL
+								case 2: // MENU CADASTRO CHAVE - 2 - EMAIL
 									String chaveEmail = "-";
 									while (validacoesBO.validaEmail(chaveEmail)) {
-										chaveEmail = Util.readConsole("Digite o endereÁo de Email: ");
+										chaveEmail = Util.readConsole("Digite o endere√ßo de Email: ");
 									}
 									pix.setTipoChavePix(TipoChavePix.EMAIL);
 									pix.setValorChave(chaveEmail);
 									continue;
-								case 3: // TELEFONE
+								case 3: // MENU CADASTRO CHAVE - 3 - TELEFONE
 									String chaveTelefone = "-";
 									while (validacoesBO.validaTelefone(chaveTelefone)) {
 										chaveTelefone = Util
-												.readConsole("Digite o n˙mero de Telefone: (Ex: +55(31)99999-9999 ");
+												.readConsole("Digite o n√∫mero de Telefone: (Ex: +55(31)99999-9999 ");
 									}
 									pix.setTipoChavePix(TipoChavePix.TELEFONE);
 									pix.setValorChave(chaveTelefone);
 									continue;
-								case 4: // ALEAT”RIO
+								case 4: // MENU CADASTRO CHAVE - 4 - ALEAT√ìRIO
 									String chaveAleatoria = UUID.randomUUID().toString();
 									pix.setTipoChavePix(TipoChavePix.ALEATORIO);
 									pix.setValorChave(chaveAleatoria);
 									continue;
 								case 0:
-									// MENU PIX - 0 - Voltar ao menu anterior
+									// MENU CADASTRO CHAVE - 0 - VOLTAR AO MENU ANTERIOR
 									break;
 								default:
-									Util.writeConsole("OpÁ„o Inv·lida!\n");
+									Util.writeConsole("Op√ß√£o Inv√°lida!\n");
 									continue;
 								}
 
 								contaCorrenteBO.adicionarPix(pix);
-
+								i = -1;
 								continue;
-							case 3:
+							case 3: // MENU PIX - 3 - TRANSFERIR VIA PIX
 
 								String chavePix = Util.readConsole("Informe a chave Pix:");
-								Double valorPix = Util.readConsoleDouble("Qual o valor da transferÍncia?");
+								Double valorPix = Util.readConsoleDouble("Qual o valor da transfer√™ncia?");
 
-								contaDestino = DataBase.returnContasByChavePix(chavePix);
+								Conta contaDestino = DataBase.returnContasByChavePix(chavePix);
 
 								if (contaDestino == null) {
 									continue;
@@ -304,46 +331,159 @@ public class StartProjetoNext {
 
 								continue;
 							case 0:
-								// MENU PIX - 0 - Voltar ao menu anterior
+								// MENU PIX - 0 - VOLTAR AO MENU ANTERIOR
 								break;
 
 							default:
-								Util.writeConsole("OpÁ„o Inv·lida!\n");
+								Util.writeConsole("Op√ß√£o Inv√°lida!\n");
 								continue;
 							}
-
+							i = -1;
 							continue;
-						case 6: //TODO MENU LOGADO - 6 - Cartıes
+						case 4: //MENU MENU LOGADO - 4 - √ÅREA DE CART√ïES
 							Menu.menuCartoes();
 							i = Util.readConsoleInt();
 
+							if (i == 0) {
+								break;
+							}
+
 							switch (i) {
-							case 1: //TODO Cart„o de CrÈdito
+							case 1: //MENU √ÅREA DE CART√ïES - 1 - CART√ÉO DE CR√âDITO
 								Menu.menuCartaoCredito();
 								i = Util.readConsoleInt();
 
+								if (i == 0) {
+									break;
+								}
+
+								ContaBO contaDoCartao;
+
+								if (contaCorrenteBO != null && contaPoupancaBO != null) {
+									int escolhaConta = Util.readConsoleInt(
+											"De qual conta deseja solicitar cart√£o? (1 - CORRENTE, 2 - POUPAN√áA)");
+									if (escolhaConta == 1) {
+										contaDoCartao = contaCorrenteBO;
+									} else {
+										contaDoCartao = contaPoupancaBO;
+									}
+								} else if (contaCorrenteBO != null) {
+									contaDoCartao = contaCorrenteBO;
+								} else {
+									contaDoCartao = contaPoupancaBO;
+								}
+								
+								CartaoCredito cartaoCreditoEmUso = contaDoCartao.getConta().getCartaoCredito(); //TODO movimentar com cart√£o
+								
 								continue;
-							case 2: //TODO Cart„o de DÈbito
+							case 2: //MENU √ÅREA DE CART√ïES - 2 - CART√ÉO DE D√âBITO
 								Menu.menuCartaoDebito();
 								i = Util.readConsoleInt();
 
+								if (i == 0) {
+									break;
+								}
+
+								if (contaCorrenteBO != null && contaPoupancaBO != null) {
+									int escolhaConta = Util.readConsoleInt(
+											"De qual conta deseja solicitar cart√£o? (1 - CORRENTE, 2 - POUPAN√áA)");
+									if (escolhaConta == 1) {
+										contaDoCartao = contaCorrenteBO;
+									} else {
+										contaDoCartao = contaPoupancaBO;
+									}
+								} else if (contaCorrenteBO != null) {
+									contaDoCartao = contaCorrenteBO;
+								} else {
+									contaDoCartao = contaPoupancaBO;
+								}
+								
+								CartaoDebito  cartaoDebitoEmUso  = contaDoCartao.getConta().getCartaoDebito();
+								
 								continue;
-							case 3: //TODO Solicitar Cart„o
+							case 3: //MENU √ÅREA DE CART√ïES - 3 - SOLICITAR CART√ÉO
 								Menu.menuSolicitarCartao();
 								i = Util.readConsoleInt();
 
+								if (i == 0) {
+									break;
+								}
+
+								if (contaCorrenteBO != null && contaPoupancaBO != null) {
+									int escolhaConta = Util.readConsoleInt(
+											"De qual conta deseja solicitar cart√£o? (1 - CORRENTE, 2 - POUPAN√áA)");
+									if (escolhaConta == 1) {
+										contaDoCartao = contaCorrenteBO;
+									} else {
+										contaDoCartao = contaPoupancaBO;
+									}
+								} else if (contaCorrenteBO != null) {
+									contaDoCartao = contaCorrenteBO;
+								} else {
+									contaDoCartao = contaPoupancaBO;
+								}
+
+								Cliente clienteDoCartao = contaDoCartao.getCliente();
+
+								switch (i) {
+								case 1: // MENU SOLICITAR CART√ÉO - 1 - CART√ÉO DE CR√âDITO
+
+									CartaoCredito CartaoCreditoExistente = contaCorrenteBO.getConta()
+											.getCartaoCredito();
+
+									if (CartaoCreditoExistente != null) {
+										System.out.println("Voc√™ j√° tem um cart√£o de Cr√©dito!");
+										continue;
+									} else {
+										String senhaCartao = "-";
+										while (validacoesBO.validaSenha(senhaCartao)) {
+											senhaCartao = Util.readConsole("Digite uma senha de 4 digitos: ");
+										}
+										
+										new CartaoCreditoBO(senhaCartao, clienteDoCartao);
+
+											//	CartaoCredito cartaoCredito = cartaoCreditoBO.
+											//	new CartaoCredito(senhaCartao, clienteDoCartao);
+											//	contaCorrenteBO.adicionarCartaoCredito(cartaoCredito);
+									}
+
+									continue;
+								case 2: // MENU SOLICITAR CART√ÉO - 2 - CART√ÉO DE D√âBITO
+
+									CartaoDebito CartaoDebitoExistente = contaCorrenteBO.getConta().getCartaoDebito();
+
+									if (CartaoDebitoExistente != null) {
+										System.out.println("Voc√™ j√° tem um cart√£o de D√©bito!");
+										continue;
+									} else {
+										String senhaCartao = "-";
+										while (validacoesBO.validaSenha(senhaCartao)) {
+											senhaCartao = Util.readConsole("Digite uma senha de 4 digitos: ");
+										}
+
+										Double limiteTransacao = Util
+												.readConsoleDouble("Defina o limite por transa√ß√£o: ");
+
+										new CartaoDebitoBO(senhaCartao, limiteTransacao, clienteDoCartao);
+										//contaCorrenteBO.adicionarCartaoDebito(cartaoDebito);
+									}
+
+									continue;
+								case 0: // MENU SOLICITAR CART√ÉO - 0 - VOLTAR AO MENU ANTERIOR
+									break;
+								}
 								continue;
 							case 0:
-								// MENU Cartıes - 0 - Voltar ao menu anterior
+								// MENU CART√ïES - 0 - VOLTAR AO MENU ANTERIOR
 								break;
 							default:
-								Util.writeConsole("OpÁ„o Inv·lida!\n");
+								Util.writeConsole("Op√ß√£o Inv√°lida!\n");
 								continue;
 							}
 
 							continue;
-						case 7:
-							// MENU LOGADO - 7 - Criar outra Conta
+						case 5:
+							// MENU LOGADO - 5 - CRIAR OUTRA CONTA
 							i = -1;
 
 							while (i != 0) {
@@ -355,7 +495,7 @@ public class StartProjetoNext {
 								for (Conta contaIteradora : listaContas) {
 
 									if (i == contaIteradora.getTipoConta().getId()) {
-										Util.writeConsole("Essa conta j· existe!\n" + "A conta existente È: \n"
+										Util.writeConsole("Essa conta j√° existe!\n" + "A conta existente √©: \n"
 												+ contaIteradora.getNumeroConta() + "\n");
 										i = -1;
 										break;
@@ -365,26 +505,26 @@ public class StartProjetoNext {
 
 								switch (i) {
 								case 1:
-									// MENU CRIA«√O DE CONTA - 1 - CONTA CORRENTE
+									// MENU CRIA√á√ÉO DE CONTA - 1 - CONTA CORRENTE
 									new ContaBO(contaPoupancaBO.getCliente(), TipoConta.CORRENTE);
 									continue;
 								case 2:
-									// MENU CRIA«√O DE CONTA - 2 - CONTA POUPAN«A
+									// MENU CRIA√á√ÉO DE CONTA - 2 - CONTA POUPAN√áA
 									new ContaBO(contaCorrenteBO.getCliente(), TipoConta.POUPANCA);
 									continue;
 								case 0:
-									// MENU LOGADO - 0 - Voltar ao menu anterior
+									// MENU LOGADO - 0 - VOLTAR AO MENU ANTERIOR
 									break;
 								default:
-									Util.writeConsole("OpÁ„o Inv·lida!\n");
+									Util.writeConsole("Op√ß√£o Inv√°lida!\n");
 									continue;
 								}
 
 							}
 							continue;
 						case 0:
-							// MENU LOGADO - 0 - Sair da conta
-							System.out.println("AtÈ mais!");
+							// MENU LOGADO - 0 - SAIR DA CONTA
+							System.out.println("At√© mais!");
 							i = 0;
 							break;
 						default:
@@ -399,21 +539,22 @@ public class StartProjetoNext {
 				i = -1;
 				continue;
 			case 3:
-				// MENU PRINCIPAL - TRANSFER NCIA SEM FAZER LOGIN
-				Conta contaDestino = DataBase.getContaDB(Util.readConsole("Informe a conta em que deseja depositar: "));
+				// MENU PRINCIPAL - TRANSFER√äNCIA SEM FAZER LOGIN
+				Conta contaDestino = DataBase
+						.getContaDB(Util.readConsoleInt("Informe a conta em que deseja depositar: "));
 				if (contaDestino != null) {
 					if (contaDestino.getNumeroConta() != null) {
-						Double valorDepositado = Util.readConsoleDouble("Qual o valor do depÛsito?");
+						Double valorDepositado = Util.readConsoleDouble("Qual o valor do dep√≥sito?");
 						ContaBO contaDestinoBO = new ContaBO(contaDestino);
 						contaDestinoBO.depositar(contaDestino, valorDepositado, false);
 					}
 				}
 				continue;
 			case 0:
-				// MENU PRINCIPAL - 0 - Sair do sistema
+				// MENU PRINCIPAL - 0 - SAIR DO SISTEMA
 				break;
 			default:
-				System.out.println("OpÁ„o Inv·lida");
+				System.out.println("Op√ß√£o Inv√°lida");
 				continue;
 			}
 

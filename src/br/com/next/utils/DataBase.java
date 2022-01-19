@@ -10,9 +10,9 @@ import br.com.next.bean.Pix;
 
 public class DataBase {
 
-	private static Map<String, Conta> dataBase = new HashMap<String, Conta>();
+	private static Map<Integer, Conta> dataBase = new HashMap<Integer, Conta>();
 
-	public static Conta getContaDB(String IdConta) {
+	public static Conta getContaDB(Integer IdConta) {
 
 		Conta conta = DataBase.dataBase.get(IdConta);
 
@@ -23,7 +23,7 @@ public class DataBase {
 		return conta;
 	}
 
-	public static void setContaDB(String numeroConta, Conta conta) {
+	public static void setContaDB(Integer numeroConta, Conta conta) {
 
 		DataBase.dataBase.put(numeroConta, conta);
 
@@ -32,7 +32,7 @@ public class DataBase {
 	public static List<Conta> returnContasByCpfSenha(String cpf, String senha) {
 		List<Conta> listaContas = new ArrayList<Conta>();
 
-		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
+		for (Map.Entry<Integer, Conta> conta : dataBase.entrySet()) {
 
 			if (conta.getValue().getCliente().getCpf().equals(cpf)
 					&& conta.getValue().getCliente().getSenha().equals(senha)) {
@@ -47,7 +47,7 @@ public class DataBase {
 	public static List<Conta> returnContasByCpf(String cpf) {
 		List<Conta> listaContas = new ArrayList<Conta>();
 
-		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
+		for (Map.Entry<Integer, Conta> conta : dataBase.entrySet()) {
 
 			if (conta.getValue().getCliente().getCpf().equals(cpf)) {
 				listaContas.add(conta.getValue());
@@ -60,7 +60,7 @@ public class DataBase {
 
 	public static Conta returnContasByChavePix(String chavePix) {
 
-		for (Map.Entry<String, Conta> conta : dataBase.entrySet()) {
+		for (Map.Entry<Integer, Conta> conta : dataBase.entrySet()) {
 
 			Pix pix = conta.getValue().getPix();
 			if (pix != null) {

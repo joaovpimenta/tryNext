@@ -1,14 +1,11 @@
 package br.com.next.bean;
 
-import java.util.List;
+public class CartaoDebito extends Cartao {
 
-public class CartaoDebito extends Cartao{
+	private Double limiteTransacao;
 
-	Double limiteTransacao;
-	
-	public CartaoDebito(String numeroCartao, Bandeira bandeira, String senha, Boolean isAtivo,
-			List<Compras> compras, Double limiteTransacao) {
-		super(numeroCartao, bandeira, senha, isAtivo, compras);
+	public CartaoDebito(String senha, Double limiteTransacao, Cliente cliente) {
+		super(senha, cliente);
 		this.limiteTransacao = limiteTransacao;
 	}
 

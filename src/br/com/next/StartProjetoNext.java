@@ -29,6 +29,7 @@ public class StartProjetoNext {
 
 	public static void main(String[] args) {
 		
+		
 		Util.loading();
 
 		ValidacoesBO validacoesBO = new ValidacoesBO();

@@ -119,47 +119,50 @@ public class Util {
 		;
 	}
 
-	public static void porcentometr() {
-		int porcentagem = 0;
-		while (porcentagem <= 100) {
-			String porcentagemTextString = (porcentagem < 10) ? "  " + porcentagem
-					: (porcentagem < 100) ? " " + porcentagem : "" + porcentagem;
-			System.out.print("\b\b\b\b" + porcentagemTextString + "%");
-			wait(500);
-			porcentagem++;
+	public static void indicadorPorcentagem(int porcentagem) {
+
+		String espacamento = "";
+		if (porcentagem < 100) {
+			espacamento = (porcentagem < 10) ? "  " : " ";
 		}
+		System.out.print(espacamento + porcentagem + "%");
 
 	}
 
-	public static void porcentometro() {
-			
-			int quadrados = 0;
-			int espacos = 22;
-			
-			while (quadrados < 22) {
-				
-				repeat(quadrados, "■", 0, 15);
-				repeat(espacos, " ", 0, 0);
-				if (quadrados < 21) { repeat(22, "\b", 0, 0); }	
-
-			}
-			
-		}
-
-		//String porcentagemTextString = (porcentagem < 10) ? "  " + porcentagem
-		//		: (porcentagem < 100) ? " " + porcentagem : "" + porcentagem;
-		//System.out.print("\b\b\b\b\b]" + porcentagemTextString + "%");
-		//wait(500);
-		//porcentagem++;
-		//}
-
 	public static void loading() {
 
-		System.out.println("╔══════════════════════════════════════════╗");
-		System.out.print("║ Carregando: [");
-		porcentometro();
+		int quadrados = 0;
+		int espacos = 21;
+		int porcentagem = 0;
 
-		System.out.println("╚══════════════════════════════════════════╝");
+		System.out.println("╔══════════════════════════════════════════╗");
+		
+
+		while (quadrados <= 21) {
+
+			porcentagem = (int) Math.round(4.76 * quadrados);
+
+			if (porcentagem < 100) {
+				System.out.print("║ Carregando: [");
+			} else {
+				System.out.print("║ Concluído:  [");
+			}
+			
+			repeat(quadrados, "■", 5, 15);
+			repeat(espacos, " ", 0, 0);
+			System.out.print("] ");
+			indicadorPorcentagem(porcentagem);
+			System.out.print(" ║");
+
+			if (quadrados < 21) {
+				repeat(44, "\b", 0, 0);
+			}
+
+			quadrados++;
+			espacos--;
+
+		}
+		System.out.println("\n╚══════════════════════════════════════════╝");
 
 	}
 

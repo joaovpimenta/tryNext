@@ -181,14 +181,14 @@ public class ContaBO {
 		if (this.conta.getDataExecucao().before(new Date())) {
 			if (this.conta.getTipoConta() == TipoConta.CORRENTE) {
 				double saldo = this.conta.getSaldo();
-				saldo -= (saldo * 0.45);
+				saldo -= (saldo * 0.0045);
 				this.conta.setSaldo(saldo);
 				DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
 
 			}
 			if (this.conta.getTipoConta() == TipoConta.POUPANCA) {
 				double saldo = this.conta.getSaldo();
-				saldo += (saldo * 0.03);
+				saldo += (saldo * 0.003);
 				this.conta.setSaldo(saldo);
 				DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
 			} else {

@@ -7,11 +7,19 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Util {
+	
+	public static void writeConsole(String texto) {
+		System.out.println("╔══════════════════════════════════════════╗");
+		System.out.print("║ ");
+		textoTrim(texto);
+		System.out.println("╚══════════════════════════════════════════╝");
+
+	}
 
 	public static String readConsole() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(" » ");
+		System.out.print("  » ");
 		String typedText = read.nextLine();
 
 		return typedText;
@@ -22,22 +30,22 @@ public class Util {
 	public static String readConsole(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto + "\n » ");
+		System.out.println("╔══════════════════════════════════════════╗");
+		System.out.print("║ ");
+		textoTrim(texto);
+		System.out.println("╚══════════════════════════════════════════╝");
+		System.out.print("  » ");
 		String typedText = read.nextLine();
 
 		return typedText;
 
 	}
 
-	public static void writeConsole(String texto) {
-		System.out.print(texto);
-	}
-
 	public static Integer readConsoleInt() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(" » ");
-		Integer typedText = Integer.parseInt(read.nextLine()); // read.nextInt();
+		System.out.print("  » ");
+		Integer typedText = read.nextInt();
 
 		return typedText;
 	}
@@ -45,8 +53,12 @@ public class Util {
 	public static Integer readConsoleInt(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto + "\n » ");
-		Integer typedText = Integer.parseInt(read.nextLine());
+		System.out.println("╔══════════════════════════════════════════╗");
+		System.out.print("║ ");
+		textoTrim(texto);
+		System.out.println("╚══════════════════════════════════════════╝");
+		System.out.print("  » ");
+		Integer typedText = read.nextInt();
 
 		return typedText;
 	}
@@ -62,17 +74,12 @@ public class Util {
 	public static Double readConsoleDouble(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.print(texto + "\n » ");
+		System.out.println("╔══════════════════════════════════════════╗");
+		System.out.print("║ ");
+		textoTrim(texto);
+		System.out.println("╚══════════════════════════════════════════╝");
+		System.out.print("  » ");
 		Double typedText = read.nextDouble();
-
-		return typedText;
-	}
-
-	public static Double writeConsole(Double saldo) {
-		@SuppressWarnings("resource")
-		Scanner read = new Scanner(System.in);
-		System.out.print(saldo + "\n » ");
-		double typedText = read.nextDouble();
 
 		return typedText;
 	}
@@ -108,18 +115,10 @@ public class Util {
 			System.out.print(texto);
 			wait(randInt(delayMin, delayMax));
 		}
-		;
+
 	}
 
-	public static void porcentometro(int repeticoes, String texto, int delayMin, int delayMax) {
-		for (int pontos = 0; pontos < 4; pontos++) {
-			System.out.print(texto);
-			wait(randInt(delayMin, delayMax));
-		}
-		;
-	}
-
-	public static void indicadorPorcentagem(int porcentagem) {
+	public static void contadorPorcentagem(int porcentagem) {
 
 		String espacamento = "";
 		if (porcentagem < 100) {
@@ -134,9 +133,9 @@ public class Util {
 		int quadrados = 0;
 		int espacos = 21;
 		int porcentagem = 0;
-
-		System.out.println("╔══════════════════════════════════════════╗");
 		
+		System.out.println("");
+		System.out.println("╔══════════════════════════════════════════╗");
 
 		while (quadrados <= 21) {
 
@@ -147,11 +146,11 @@ public class Util {
 			} else {
 				System.out.print("║ Concluído:  [");
 			}
-			
+
 			repeat(quadrados, "■", 5, 15);
 			repeat(espacos, " ", 0, 0);
 			System.out.print("] ");
-			indicadorPorcentagem(porcentagem);
+			contadorPorcentagem(porcentagem);
 			System.out.print(" ║");
 
 			if (quadrados < 21) {
@@ -164,6 +163,56 @@ public class Util {
 		}
 		System.out.println("\n╚══════════════════════════════════════════╝");
 
+	}
+
+	public static void textoTrim(String texto) {
+
+		int i = 0;
+		int linhas = 1;
+
+		while (i < texto.length()) {
+
+			boolean quebrarlinha = false;
+
+			if (i > 0) {
+				quebrarlinha = ((i / 40) - (i / 40.0) == 0) ? true : false;
+			}
+
+			if (quebrarlinha) {
+				System.out.print(" ║");
+				System.out.print("\n║ ");
+				linhas++;
+			}
+
+			char c = texto.charAt(i);
+			System.out.print(c);
+			wait(randInt(10, 30));
+
+			i++;
+		}
+		repeat(((40 * linhas) - i), " ", 0, 0);
+		System.out.print(" ║\n");
+
+	}
+
+	public static void textoTrimBugado(String texto) {
+
+		int i = 0;
+
+		while (i < texto.length()) {
+			char c = texto.charAt(i);
+			System.out.print(c);
+			wait(randInt(10, 30));
+
+			if (i == 39) {
+				System.out.print("\b" + "- ║");
+				System.out.print("\n║ " + c);
+			}
+			i++;
+		}
+		repeat((40 - i), " ", 0, 0);
+		System.out.print(" ║");
+		System.out.print("\n║ ");
 	}
 
 }

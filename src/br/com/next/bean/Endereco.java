@@ -9,7 +9,7 @@ public class Endereco {
 	private String cidade;
 	private String estado;
 
-	public boolean buscarEndereço(String cep) {
+	public boolean buscarEndereco(String cep) {
 		return true;
 
 	}

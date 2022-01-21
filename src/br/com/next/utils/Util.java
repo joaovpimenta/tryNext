@@ -2,19 +2,12 @@ package br.com.next.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Random;
 
 public class Util {
-	
-	public static void writeConsole(String texto) {
-		System.out.println("╔══════════════════════════════════════════╗");
-		System.out.print("║ ");
-		textoTrim(texto);
-		System.out.println("╚══════════════════════════════════════════╝");
-
-	}
 
 	public static String readConsole() {
 		@SuppressWarnings("resource")
@@ -30,10 +23,7 @@ public class Util {
 	public static String readConsole(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.println("╔══════════════════════════════════════════╗");
-		System.out.print("║ ");
-		textoTrim(texto);
-		System.out.println("╚══════════════════════════════════════════╝");
+		writeConsole(texto, 44, "<");
 		System.out.print("  » ");
 		String typedText = read.nextLine();
 
@@ -45,18 +35,22 @@ public class Util {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
 		System.out.print("  » ");
-		Integer typedText = read.nextInt();
+		Integer typedInt;
+		try {
+			typedInt = Integer.parseInt(read.nextLine());
+		} catch (Exception e) {
+			typedInt = -1;
+		}
+		
+		
 
-		return typedText;
+		return typedInt;
 	}
 
 	public static Integer readConsoleInt(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.println("╔══════════════════════════════════════════╗");
-		System.out.print("║ ");
-		textoTrim(texto);
-		System.out.println("╚══════════════════════════════════════════╝");
+		writeConsole(texto, 44, "<");
 		System.out.print("  » ");
 		Integer typedText = read.nextInt();
 
@@ -66,18 +60,20 @@ public class Util {
 	public static Double readConsoleDouble() {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		Double typedText = read.nextDouble();
-
-		return typedText;
+		System.out.print("  » ");
+		Double typedDouble;
+		try {
+			typedDouble = Double.parseDouble(read.nextLine());
+		} catch (Exception e) {
+			typedDouble = -0.0;
+		}
+		return typedDouble;
 	}
 
 	public static Double readConsoleDouble(String texto) {
 		@SuppressWarnings("resource")
 		Scanner read = new Scanner(System.in);
-		System.out.println("╔══════════════════════════════════════════╗");
-		System.out.print("║ ");
-		textoTrim(texto);
-		System.out.println("╚══════════════════════════════════════════╝");
+		writeConsole(texto, 44, "<");
 		System.out.print("  » ");
 		Double typedText = read.nextDouble();
 
@@ -104,79 +100,125 @@ public class Util {
 
 	public static void wait(int ms) {
 		try {
-			 Thread.sleep(ms);
+			Thread.sleep(ms);
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
 		}
 	}
 
-	public static void repeat(int repeticoes, String texto, int delayMin, int delayMax) {
+	public static String repeat(int repeticoes, String texto, int delayMin, int delayMax) {
+		String textToReturn = "";
 		for (int pontos = 0; pontos < repeticoes; pontos++) {
-			System.out.print(texto);
+			textToReturn += texto;
 			wait(randInt(delayMin, delayMax));
 		}
-
+		return textToReturn;
 	}
 
 	public static String contadorPorcentagem(int porcentagem) {
 
 		String espacamento = (porcentagem < 100) ? (porcentagem < 10) ? "  " : " " : "";
 		String retornoString = espacamento + porcentagem + "%";
-		
+
 		return retornoString;
 	}
 
-	public static void loading(int totalQuadrados) {
-		System.out.print("╔══════════════════════════════════════════╗\n");
-		
-		for (int porcentagem = 0; porcentagem <= 100; porcentagem+= 4.762) {
+/*	public static void loading(int largura) {
 
-			Integer quadrados = (int) Math.round(porcentagem*totalQuadrados/100);
-			Integer espacos = totalQuadrados-quadrados;
-			
+		int totalQuadrados = largura - 23;
+
+		System.out.println("╔" + repeat(largura - 2, "═", 0, 0) + "╗");
+
+		for (int porcentagem = 0; porcentagem <= 100; porcentagem += 4.762) {
+
+			Integer quadrados = (int) Math.round(porcentagem * totalQuadrados / 100);
+			Integer espacos = totalQuadrados - quadrados;
+
 			System.out.print((porcentagem < 100) ? "║ Carregando: [" : "║ Concluído:  [");
-
-			repeat(quadrados, "■", 5, 15);
-			repeat(espacos, " ", 0, 0);
-			
-			System.out.print("] " + contadorPorcentagem(porcentagem) + " ║");
+			System.out.print(repeat(quadrados, "■", 5, 25));
+			System.out.print(repeat(espacos, " ", 0, 0) + "] " + contadorPorcentagem(porcentagem) + " ║");
 
 			if (quadrados < totalQuadrados) {
-				repeat(44, "\b", 0, 0);
+				System.out.print(repeat(largura, "\b", 0, 0));
 			}
-			
+
 		}
-		System.out.print("\n╚══════════════════════════════════════════╝");
-	}
-	
-	public static void printLoading(int totalQuadrados) {
-		System.out.println("╔══════════════════════════════════════════╗");
-		loading(totalQuadrados);
-		
+
+		System.out.println("\n╚" + repeat(largura - 2, "═", 0, 0) + "╝");
 
 	}
-
-	public static void textoTrim(String texto) {
+*/
+	public static void writeConsole(String texto, int largura, String alinhamento) {
 
 		int i = 0;
 		int linhas = 1;
+		largura -= 4;
+		Double larguraDouble = (double) largura;
+		int totalEspacos = (texto.length() % 2 != 0) ? largura-texto.length() + 1 : largura-texto.length();
+		int espacosE = totalEspacos/2;
+		int espacosD = (totalEspacos/2)-1;
 
-		while (i < texto.length()) {
+		System.out.print("╔" + repeat(largura + 2, "═", 0, 0) + "╗" + "\n║ ");
 
-			if ((i > 0) ? ((i / 40) - (i / 40.0) == 0) ? true : false : false) {
-				System.out.print(" ║\n║ ");
-				linhas++;
+		if (alinhamento == "<") {
+
+			while (i < texto.length()) {
+
+				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
+					System.out.print(" ║\n║ ");
+					linhas++;
+				}
+
+				System.out.print(texto.charAt(i));
+				i++;
+
+				wait(randInt(10, 20));
 			}
+			System.out.print(repeat(((largura * linhas) - i), " ", 0, 0));
 
-			System.out.print(texto.charAt(i));
-			i++;
+		} else if (alinhamento == "-") {
 			
-			wait(randInt(10, 30));
+			System.out.print(repeat(espacosE, " ", 0, 0));
+			
+			while (i < texto.length()) {
+
+				System.out.print(texto.charAt(i));
+				i++;
+
+				wait(randInt(10, 20));
+			}
+			
+			System.out.print(repeat(espacosD, " ", 0, 0));
+
+		} else {
+
+			System.out.print(repeat(espacosE+espacosD, " ", 0, 0));
+			
+			while (i < texto.length()) {
+
+				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
+					System.out.print(" ║\n║ ");
+					linhas++;
+				}
+
+				System.out.print(texto.charAt(i));
+				i++;
+
+				wait(randInt(10, 20));
+			}
+			System.out.print(repeat(((largura * linhas) - i), " ", 0, 0));
 		}
-		
-		repeat(((40 * linhas) - i), " ", 0, 0);
-		System.out.print(" ║\n");
+
+		System.out.println(" ║\n" + "╚" + repeat(largura + 2, "═", 0, 0) + "╝");
 
 	}
+
+	public static void writeMenu(ArrayList<String> menu, int linhas) {
+		
+		for (int x = 0; x < menu.size(); x++)
+		
+		Util.writeConsole(menu.get(x), 44, ">");
+		
+		}
 
 }

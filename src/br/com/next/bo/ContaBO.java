@@ -11,6 +11,7 @@ import br.com.next.bean.Pix;
 import br.com.next.bean.TipoCliente;
 import br.com.next.bean.TipoConta;
 import br.com.next.utils.DataBase;
+import br.com.next.utils.Util;
 
 public class ContaBO {
 
@@ -25,7 +26,7 @@ public class ContaBO {
 	}
 
 	private Conta novaConta(Cliente cliente, TipoConta tipoConta) {
-		
+
 		Conta conta = new Conta();
 		conta.setCliente(cliente);
 		conta.setNumeroConta();
@@ -36,15 +37,17 @@ public class ContaBO {
 		conta.setDataExecucao(dataExecucao);
 
 		DataBase.setContaDB(conta.getNumeroConta(), conta);
-		
-		System.out.println("O número da sua conta é: \n" + conta.getNumeroConta() + "\nE o tipo é: "
-				+ conta.getTipoConta().toString());
+
+		String mensagem = "O número da sua conta é: " + conta.getNumeroConta() + "          E o tipo é: "
+				+ conta.getTipoConta().toString();
+
+		Util.writeConsole(mensagem, 44, "<");
 
 		return conta;
 	}
 
 	public boolean transferir(Conta contaDestino, double valor) {
-		
+
 		double saldo = this.conta.getSaldo();
 		double saldoDestino = contaDestino.getSaldo();
 
@@ -77,7 +80,7 @@ public class ContaBO {
 	}
 
 	public boolean transferirViaPix(Conta contaDestino, double valorPix) {
-		
+
 		double saldo = this.conta.getSaldo();
 		double saldoDestino = contaDestino.getSaldo();
 
@@ -112,12 +115,8 @@ public class ContaBO {
 		Double saldoDestino = contaDestino.getSaldo();
 		saldoDestino += valorDepositado;
 		contaDestino.setSaldo(saldoDestino);
-		// TODO Mostrar saldo poupança e corrente
-		if (isLogged) {
-			System.out.println("\nSaldo atual: R$" + this.conta.getSaldo() + "\n");
-		}
-		this.atualizaTipo();
 
+		this.atualizaTipo();
 		DataBase.setContaDB(contaDestino.getNumeroConta(), contaDestino);
 	}
 
@@ -128,23 +127,25 @@ public class ContaBO {
 			saldo -= valorSaque;
 			this.conta.setSaldo(saldo);
 
-			System.out.println("\nSaldo atual: R$" + this.conta.getSaldo() + "\n");
-			this.atualizaTipo();
+			Util.writeConsole(("\nSaldo atual: R$" + this.conta.getSaldo()), 44, "<");
 
+			this.atualizaTipo();
 			DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
 
 			return true;
 		} else {
-			System.out.println("O valor informado é superior ao seu saldo atual.\n");
+			Util.writeConsole("O valor informado é superior ao seu saldo atual.", 44, "<");
 			return false;
 		}
 	}
 
-	public void consultaSaldo() { // TODO Mostrar saldo poupança e corrente
-		
-		System.out.println("Cliente: " + this.conta.getCliente().getNome());
-		System.out.println("Conta: " + this.conta.getNumeroConta() + "\nCPF: " + this.conta.getCliente().getCpf());
-		System.out.println("\nSaldo Atual: R$" + this.conta.getSaldo() + "\n");
+	public String consultaSaldo() { // TODO Mostrar saldo poupança e corrente
+
+		String mensagem = "Cliente: " + this.conta.getCliente().getNome() + "Conta: " + this.conta.getNumeroConta()
+				+ "Tipo: " + this.conta.getTipoConta().name() + "\nCPF: " + this.conta.getCliente().getCpf()
+				+ "\nSaldo Atual: R$" + this.conta.getSaldo();
+		return mensagem;
+
 	}
 
 	public void atualizaTipo() {
@@ -195,6 +196,10 @@ public class ContaBO {
 
 		}
 
+	}
+
+	public String getChavePix() {
+		return this.conta.getPix().getValorChave();
 	}
 
 	public void adicionarPix(Pix pix) {

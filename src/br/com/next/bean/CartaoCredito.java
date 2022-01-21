@@ -9,18 +9,18 @@ public class CartaoCredito extends Cartao {
 	private Double valorFatura;
 	private Date vencimentoFatura;
 
-	public CartaoCredito(String senha, Cliente cliente) {
+	public CartaoCredito(Cliente cliente, String senha, Integer diaVencimento) {
 		super(senha, cliente);
 		this.setLimite(cliente);
 		this.valorFatura = 0.0;
-		this.vencimentoFatura = avancaMes();
+		this.vencimentoFatura = avancaMes(diaVencimento);
 	}
 
 	public Double getLimite() {
 		return limite;
 	}
 
-	public void setLimite(Cliente cliente) { // TODO Adicionar isso ao menu de cartões de crédito
+	public void setLimite(Cliente cliente) {
 		TipoCliente tipoCliente = cliente.getTipo();
 		Double limite = (tipoCliente == TipoCliente.COMUM) ? 3000.0
 				: (tipoCliente == TipoCliente.SUPER) ? 8000.0 : 12000.0;
@@ -32,11 +32,12 @@ public class CartaoCredito extends Cartao {
 	}
 
 	public void setValorFatura(Double valorFatura) {
-		this.valorFatura = valorFatura;
+		this.valorFatura += valorFatura;
 	}
 
-	public Date avancaMes() {
+	public Date avancaMes(Integer diaVencimento) {
 		Calendar calendario = Calendar.getInstance();
+		calendario.set(Calendar.DAY_OF_MONTH, diaVencimento);
 		calendario.add(Calendar.MONTH, 1);
 		Date dataExecucao = calendario.getTime();
 		return dataExecucao;
@@ -49,5 +50,13 @@ public class CartaoCredito extends Cartao {
 	public void setVencimentoFatura(Date vencimentoFatura) {
 		this.vencimentoFatura = vencimentoFatura;
 	}
+
+	public void novaCompra(Compras compras) {
+		this.valorFatura += compras.getValor();
+		this.compras.add(compras);
+		
+	}
+	
+	
 
 }

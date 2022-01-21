@@ -27,7 +27,6 @@ public abstract class Cartao {
 	}
 	public void setNumeroCartao() {
 		String numeroCartao = Util.randInt(1000, 9999)+" "+Util.randInt(1000, 9999)+" "+Util.randInt(1000, 9999)+" "+Util.randInt(1000, 9999);
-		System.out.println("O número do seu cartão é: "+numeroCartao);
 		this.numeroCartao = numeroCartao;
 	}
 	public Bandeira getBandeira() {
@@ -52,11 +51,19 @@ public abstract class Cartao {
 	public void setIsAtivo() {
 		this.isAtivo = (this.getIsAtivo()) ? false : true;
 	}
+	public String gerarFatura() {
+		String fatura = "";
+		for (int i = 0; i < compras.size(); i++) {
+			fatura += compras.get(i).getNomeProduto() + compras.get(i).getDescricao() + "R$" + compras.get(i).getValor() + compras.get(i).getDataCompra();
+		}
+		return fatura;
+	}
 	public List<Compras> getCompras() {
 		return compras;
 	}
 	public void setCompras(List<Compras> compras) {
 		this.compras = compras;
+		
 	}
 	
 }

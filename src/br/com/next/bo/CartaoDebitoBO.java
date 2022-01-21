@@ -11,14 +11,22 @@ public class CartaoDebitoBO {
 		
 	}
 
-	public CartaoDebitoBO(String senha, Double limiteTransacao, Cliente cliente) {
-		this.cartaoDebito = novoCartaoDebito(senha, limiteTransacao, cliente);
+	public CartaoDebitoBO(Cliente cliente, String senha, Double limiteTransacao) {
+		this.cartaoDebito = novoCartaoDebito(cliente, senha, limiteTransacao);
 		
 	}
 	
-	private CartaoDebito novoCartaoDebito(String senha, Double limiteTransacao, Cliente cliente) {
+	private CartaoDebito novoCartaoDebito(Cliente cliente, String senha, Double limiteTransacao) {
 		CartaoDebito cartaoDebito = new CartaoDebito(senha, limiteTransacao, cliente);
 		return cartaoDebito;
+	}
+
+	public CartaoDebito getCartaoDebito() {
+		return cartaoDebito;
+	}
+
+	public void setCartaoDebito(CartaoDebito cartaoDebito) {
+		this.cartaoDebito = cartaoDebito;
 	}
 
 }

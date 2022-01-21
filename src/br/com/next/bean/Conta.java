@@ -16,6 +16,8 @@ public class Conta {
 	private CartaoCredito cartaoCredito;
 	private CartaoDebito cartaoDebito;
 
+	
+	
 	// Getters e Setters
 
 	public Cliente getCliente() {
@@ -30,8 +32,8 @@ public class Conta {
 		return numeroConta;
 	}
 
-	public Integer setNumeroConta() {
-		return Util.randInt(10000, 99999);
+	public void setNumeroConta() {
+		this.numeroConta = Util.randInt(10000, 99999);
 	}
 
 	public Double getSaldo() {

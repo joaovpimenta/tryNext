@@ -125,4 +125,17 @@ public class Menu {
 		System.out.println("╚══════════════════════════════════════════╝");
 	}
 //TODO criar menu meus cartões(dados╔status)
+
+	public static void menuDiaVencimento() {
+		System.out.println("╔══════════════════════════════════════════╗");
+		System.out.println("║          × Data de Vencimento ×          ║");
+		System.out.println("╠══════════════════════════════════════════╣");
+		System.out.println("║ » 1 - Dia 01                             ║");
+		System.out.println("║ » 2 - Dia 10                             ║");
+		System.out.println("║ » 3 - Dia 15                             ║");
+		System.out.println("║ » 4 - Dia 25                             ║");
+		System.out.println("║ » 0 - Voltar                             ║");
+		System.out.println("╚══════════════════════════════════════════╝");
+		
+	}
 }

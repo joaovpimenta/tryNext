@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.next.bean.Compras;
 import br.com.next.bean.Conta;
 import br.com.next.bean.Pix;
 
@@ -17,19 +18,20 @@ public class DataBase {
 		Conta conta = DataBase.dataBase.get(IdConta);
 
 		if (conta == null) {
-			System.out.println("Conta n„o encontrada");
+			Util.writeConsole("Conta n√£o encontrada", 44, "-");
 			return null;
 		}
 		return conta;
 	}
 
 	public static void setContaDB(Integer numeroConta, Conta conta) {
-
+		
 		DataBase.dataBase.put(numeroConta, conta);
 
 	}
 
 	public static List<Conta> returnContasByCpfSenha(String cpf, String senha) {
+		
 		List<Conta> listaContas = new ArrayList<Conta>();
 
 		for (Map.Entry<Integer, Conta> conta : dataBase.entrySet()) {
@@ -37,11 +39,10 @@ public class DataBase {
 			if (conta.getValue().getCliente().getCpf().equals(cpf)
 					&& conta.getValue().getCliente().getSenha().equals(senha)) {
 				listaContas.add(conta.getValue());
-
-				return listaContas;
 			}
+			
 		}
-		return null;
+		return listaContas;
 	}
 
 	public static List<Conta> returnContasByCpf(String cpf) {
@@ -53,9 +54,7 @@ public class DataBase {
 				listaContas.add(conta.getValue());
 			}
 		}
-
 		return listaContas;
-
 	}
 
 	public static Conta returnContasByChavePix(String chavePix) {
@@ -69,10 +68,13 @@ public class DataBase {
 				}
 			}
 		}
-
-		System.out.println("Chave Pix inv·lida");
+		System.out.println("Chave Pix inv√°lida");
 		return null;
+	}
 
+	public static boolean novaCompra(Compras compras, Conta conta) {
+		conta.getCartaoCredito().getCompras().add(compras);
+		return true;
 	}
 
 }

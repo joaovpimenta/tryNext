@@ -27,6 +27,13 @@ public class CartaoCreditoBO {
 	}
 
 	public boolean novaCompra(Date dataCompra, Double valor, String descricao, String nomeProduto, ContaBO contaMovimentada) {
+		Double limiteCartao = cartaoCredito.getLimite();
+		
+		if (limiteCartao <= valor) {
+			return false;
+		}
+		
+		cartaoCredito.setLimite(limiteCartao-valor);
 		Compras compras = new Compras(dataCompra, valor, descricao, nomeProduto);
 		return DataBase.novaCompra(compras, contaMovimentada.getConta());
 	}

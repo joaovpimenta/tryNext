@@ -11,7 +11,7 @@ public class CartaoCredito extends Cartao {
 
 	public CartaoCredito(Cliente cliente, String senha, Integer diaVencimento) {
 		super(senha, cliente);
-		this.setLimite(cliente);
+		this.setLimiteInicio(cliente);
 		this.valorFatura = 0.0;
 		this.vencimentoFatura = avancaMes(diaVencimento);
 	}
@@ -19,8 +19,12 @@ public class CartaoCredito extends Cartao {
 	public Double getLimite() {
 		return limite;
 	}
+	
+	public void setLimite(Double limite) {
+		this.limite = limite;
+	}
 
-	public void setLimite(Cliente cliente) {
+	public void setLimiteInicio(Cliente cliente) {
 		TipoCliente tipoCliente = cliente.getTipo();
 		Double limite = (tipoCliente == TipoCliente.COMUM) ? 3000.0
 				: (tipoCliente == TipoCliente.SUPER) ? 8000.0 : 12000.0;

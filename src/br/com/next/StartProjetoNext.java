@@ -222,7 +222,7 @@ public class StartProjetoNext {
 									continue;
 								case 3:// »MENU CARTÃO DE CRÉDITO - 3 - SOLICITAR AUMENTO DO LIMITE
 									Double limiteAntigo = cartaoCreditoEmUso.getLimite();
-									cartaoCreditoEmUso.setLimite(contaMovimentada.getCliente());
+									cartaoCreditoEmUso.setLimiteInicio(contaMovimentada.getCliente());
 									Double limiteAtual = cartaoCreditoEmUso.getLimite();
 
 									mensagem = (limiteAtual != limiteAntigo)
@@ -264,6 +264,52 @@ public class StartProjetoNext {
 								
 								if (i == 0) {
 									break;
+								}
+								
+								switch (i) {
+								case 1: // »MENU CARTÃO DE DÉBITO - 1 - COMPRA COM DÉBITO
+									
+									String nomeProduto = Util.readConsole("Qual nome do produto?");
+									String descricao = Util.readConsole("Descrição da compra");
+									Double valorCompra = Util.readConsoleDouble("Preço do produto?");
+
+									String dataDaCompra = "";
+									while (validacoesBO.validaData(dataDaCompra)) {
+										dataDaCompra = Util.readConsole("Qual a data da compra?");
+									}
+									Date dataCompra = Util.readConsoleData(dataDaCompra);
+									
+									CartaoDebitoBO cartaoDebitoBO = new CartaoDebitoBO(cartaoDebitoEmUso);
+									
+									String mensagem = (cartaoDebitoBO.novaCompra(dataCompra, valorCompra, descricao,
+											nomeProduto, contaMovimentada))
+													? "Compra efetuada com sucesso!" : "Compra não foi efetuada!";
+									Util.writeConsole(mensagem, 44, "-");
+
+									continue;
+								case 2: // »MENU CARTÃO DE DÉBITO - 2 - CONSULTAR EXTRATO
+									Util.writeConsole(cartaoDebitoEmUso.gerarFatura(), 44, "<");
+									continue;
+								case 3: // »MENU CARTÃO DE DÉBITO - 3 - ALTERAR LIMITE POR TRANSAÇÃO
+									Double novoLimiteTransacao = Util.readConsoleDouble("Insira o limite por transação desejado:");
+									cartaoDebitoEmUso.setLimiteTransacao(novoLimiteTransacao);
+
+									mensagem = "Solicitação de alteração de limite recebida. Seu novo limite é: R$" + cartaoDebitoEmUso.getLimiteTransacao();
+									Util.writeConsole(mensagem, 44, "<");
+
+									continue;
+								case 4: // »MENU CARTÃO DE DÉBITO - 4 - BLOQUEAR CARTÃO
+									cartaoDebitoEmUso.setIsAtivo();
+									mensagem = (cartaoDebitoEmUso.getIsAtivo()) ? "Status do cartao: Ativo" : "Status do cartao: Inativo";
+									Util.writeConsole(mensagem, 44, "<");
+
+									continue;
+								case 0:
+									// »MENU CARTÃO DE CRÉDITO - 0 - VOLTAR AO MENU ANTERIOR
+									break;
+								default:
+									Util.writeConsole("Opção Inválida!", 44, "<");
+									continue;
 								}
 
 								continue;

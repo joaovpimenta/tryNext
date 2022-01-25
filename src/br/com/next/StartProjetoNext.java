@@ -129,7 +129,15 @@ public class StartProjetoNext {
 							switch (i) {
 							case 1:
 								// »MENU PIX - 3 - CONSULTAR CHAVE
-								Util.writeConsole(contaCorrenteBO.getChavePix(), 44, "-");
+								definirContaDaOperacao();
+								if (contaMovimentada != null) {
+									try {
+										Util.writeConsole(contaMovimentada.getChavePix(), 44, "-");
+									} catch (Exception e) {
+										Util.writeConsole("Nenhuma chave cadastrada para essa conta", 44, "-");
+									}
+								}
+								
 								continue;
 							case 2:
 								// »MENU PIX - 3 - CADASTRAR PIX
@@ -147,7 +155,7 @@ public class StartProjetoNext {
 									continue;
 								}
 
-								contaCorrenteBO.transferirViaPix(contaDestino, valorPix);
+								contaMovimentada.transferirViaPix(contaDestino, valorPix);
 
 								continue;
 							case 0:
@@ -185,14 +193,6 @@ public class StartProjetoNext {
 									Menu.menuCartaoCredito();
 									i = Util.readConsoleInt();
 								}
-								
-								
-
-								if (i == 0) {
-									break;
-								}
-
-								
 								
 								switch (i) {
 								case 1: // »MENU CARTÃO DE CRÉDITO - 1 - COMPRA COM CRÉDITO
@@ -517,6 +517,7 @@ public class StartProjetoNext {
 	}
 
 	private static void cadastroPix(ValidacoesBO validacoesBO) {
+		definirContaDaOperacao();
 		Pix pix = new Pix();
 		pix.setIsAtivado(true);
 
@@ -531,6 +532,7 @@ public class StartProjetoNext {
 			}
 			pix.setTipoChavePix(TipoChavePix.CPF);
 			pix.setValorChave(chaveCpf);
+			contaMovimentada.adicionarPix(pix);
 			return;
 		case 2: // »MENU CADASTRO CHAVE - 2 - EMAIL
 			String chaveEmail = "-";
@@ -539,6 +541,7 @@ public class StartProjetoNext {
 			}
 			pix.setTipoChavePix(TipoChavePix.EMAIL);
 			pix.setValorChave(chaveEmail);
+			contaMovimentada.adicionarPix(pix);
 			return;
 		case 3: // »MENU CADASTRO CHAVE - 3 - TELEFONE
 			String chaveTelefone = "-";
@@ -547,11 +550,13 @@ public class StartProjetoNext {
 			}
 			pix.setTipoChavePix(TipoChavePix.TELEFONE);
 			pix.setValorChave(chaveTelefone);
+			contaMovimentada.adicionarPix(pix);
 			return;
 		case 4: // »MENU CADASTRO CHAVE - 4 - ALEATÓRIO
 			String chaveAleatoria = UUID.randomUUID().toString();
 			pix.setTipoChavePix(TipoChavePix.ALEATORIO);
 			pix.setValorChave(chaveAleatoria);
+			contaMovimentada.adicionarPix(pix);
 			return;
 		case 0:
 			// »MENU CADASTRO CHAVE - 0 - VOLTAR AO MENU ANTERIOR
@@ -561,7 +566,7 @@ public class StartProjetoNext {
 			return;
 		}
 
-		contaCorrenteBO.adicionarPix(pix);
+		
 		i = -1;
 	}
 

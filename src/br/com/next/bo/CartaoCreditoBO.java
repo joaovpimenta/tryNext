@@ -29,7 +29,7 @@ public class CartaoCreditoBO {
 	public boolean novaCompra(Date dataCompra, Double valor, String descricao, String nomeProduto, ContaBO contaMovimentada) {
 		Double limiteCartao = cartaoCredito.getLimite();
 		
-		if (limiteCartao <= valor) {
+		if (limiteCartao < valor) {
 			return false;
 		}
 		

@@ -82,24 +82,25 @@ public class ContaBO {
 	public boolean transferirViaPix(Conta contaDestino, double valorPix) {
 
 		double saldo = this.conta.getSaldo();
-		double saldoDestino = contaDestino.getSaldo();
+		double saldoDestino;
 
 		if (saldo >= valorPix) {
 			saldo -= valorPix;
+			this.conta.setSaldo(saldo);
+			saldoDestino = contaDestino.getSaldo();
 			saldoDestino += valorPix;
+			contaDestino.setSaldo(saldoDestino);
 		} else {
-			System.out.println("O valor informado é superior ao seu saldo atual.\n");
+			Util.writeConsole("O valor informado é superior ao seu saldo atual.", 44, "-");
 			return false;
 		}
-
-		contaDestino.setSaldo(saldoDestino);
-		this.conta.setSaldo(saldo);
+		
 		this.atualizaTipo();
-		System.out.println("Saldo atual: R$" + this.conta.getSaldo() + "\n");
+		System.out.println("Saldo atual: R$" + this.conta.getSaldo());
 
 		DataBase.setContaDB(contaDestino.getNumeroConta(), contaDestino);
 		DataBase.setContaDB(this.conta.getNumeroConta(), this.conta);
-
+		
 		return true;
 
 	}

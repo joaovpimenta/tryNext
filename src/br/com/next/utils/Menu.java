@@ -99,6 +99,7 @@ public class Menu {
 		System.out.println("║ » 2 - Consultar Fatura                   ║");
 		System.out.println("║ » 3 - Solicitar Aumento do Limite        ║");
 		System.out.println("║ » 4 - Bloquear Cartão                    ║");
+		System.out.println("║ » 5 - Contratar Seguro                   ║");
 		System.out.println("║ » 0 - Voltar                             ║");
 		System.out.println("╚══════════════════════════════════════════╝");
 	}
@@ -137,5 +138,17 @@ public class Menu {
 		System.out.println("║ » 0 - Voltar                             ║");
 		System.out.println("╚══════════════════════════════════════════╝");
 		
+	}
+	
+	public static void menuSeguros() {
+		System.out.println("╔══════════════════════════════════════════╗");
+		System.out.println("║                × Seguros ×               ║");
+		System.out.println("╠══════════════════════════════════════════╣");
+		System.out.println("║ » 1 - Seguro Morte                       ║");
+		System.out.println("║ » 2 - Seguro Invalidez                   ║");
+		System.out.println("║ » 3 - Seguro Desemprego                  ║");
+		System.out.println("║ » 4 - Seguros Ativos                     ║");
+		System.out.println("║ » 0 - Voltar                             ║");
+		System.out.println("╚══════════════════════════════════════════╝");
 	}
 }

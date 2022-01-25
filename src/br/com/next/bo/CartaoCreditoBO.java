@@ -5,13 +5,11 @@ import java.util.Date;
 import br.com.next.bean.CartaoCredito;
 import br.com.next.bean.Cliente;
 import br.com.next.bean.Compras;
-import br.com.next.bean.Conta;
 import br.com.next.utils.DataBase;
 
 public class CartaoCreditoBO {
 
 	CartaoCredito cartaoCredito;
-	Conta conta;
 
 	public CartaoCreditoBO(CartaoCredito cartaoCredito) {
 		this.cartaoCredito = cartaoCredito;

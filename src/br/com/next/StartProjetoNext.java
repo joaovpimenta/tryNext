@@ -14,6 +14,7 @@ import br.com.next.bean.Endereco;
 import br.com.next.bean.Pix;
 import br.com.next.bean.TipoChavePix;
 import br.com.next.bean.TipoConta;
+import br.com.next.bean.TipoSeguro;
 import br.com.next.bo.CartaoCreditoBO;
 import br.com.next.bo.CartaoDebitoBO;
 import br.com.next.bo.ClienteBO;
@@ -42,6 +43,7 @@ public class StartProjetoNext {
 	public static void main(String[] args) {
 
 		ValidacoesBO validacoesBO = new ValidacoesBO();
+		DataBase.setListaSeguros();
 
 		while (i != 0) {
 
@@ -112,7 +114,7 @@ public class StartProjetoNext {
 									break;
 
 								default:
-									Util.writeConsole("Opção Inválida!", 44, "<");
+									Util.writeConsoleError("Opção Inválida!", 44, "<");
 									continue;
 								}
 							}
@@ -163,7 +165,7 @@ public class StartProjetoNext {
 								break;
 
 							default:
-								Util.writeConsole("Opção Inválida!", 44, "<");
+								Util.writeConsoleError("Opção Inválida!", 44, "<");
 								continue;
 							}
 							i = -1;
@@ -239,11 +241,24 @@ public class StartProjetoNext {
 									Util.writeConsole(mensagem, 44, "<");
 
 									continue;
+								case 5:// »MENU CARTÃO DE CRÉDITO - 5 - CONTRATAR SEGURO
+									Menu.menuSeguros();
+									i = Util.readConsoleInt();
+									
+									if (i == 4) {
+									Util.writeConsole(cartaoCreditoEmUso.getApolice().getSeguro().getRegra(), 44, "<");
+									continue;
+									}
+									
+									TipoSeguro tipoSeguro = (i == 1) ? TipoSeguro.MORTE : (i == 2) ? TipoSeguro.INVALIDEZ : TipoSeguro.DESEMPREGO;
+									Integer anosDuracao = Util.readConsoleInt("Por quantos anos deseja contratar o seguro?");
+									cartaoCreditoEmUso.setApolice(anosDuracao, tipoSeguro);
+									continue;
 								case 0:
 									// »MENU CARTÃO DE CRÉDITO - 0 - VOLTAR AO MENU ANTERIOR
 									break;
 								default:
-									Util.writeConsole("Opção Inválida!", 44, "<");
+									Util.writeConsoleError("Opção Inválida!", 44, "<");
 									continue;
 								}
 
@@ -308,7 +323,7 @@ public class StartProjetoNext {
 									// »MENU CARTÃO DE CRÉDITO - 0 - VOLTAR AO MENU ANTERIOR
 									break;
 								default:
-									Util.writeConsole("Opção Inválida!", 44, "<");
+									Util.writeConsoleError("Opção Inválida!", 44, "<");
 									continue;
 								}
 
@@ -399,7 +414,7 @@ public class StartProjetoNext {
 								// »MENU CARTÕES - 0 - VOLTAR AO MENU ANTERIOR
 								break;
 							default:
-								Util.writeConsole("Opção Inválida!", 44, "<");
+								Util.writeConsoleError("Opção Inválida!", 44, "<");
 								continue;
 							}
 
@@ -440,7 +455,7 @@ public class StartProjetoNext {
 									// »MENU CRIAÇÃO DE CONTA - 0 - VOLTAR AO MENU ANTERIOR
 									break;
 								default:
-									Util.writeConsole("Opção Inválida!", 44, "<");
+									Util.writeConsoleError("Opção Inválida!", 44, "<");
 									continue;
 								}
 
@@ -562,7 +577,7 @@ public class StartProjetoNext {
 			// »MENU CADASTRO CHAVE - 0 - VOLTAR AO MENU ANTERIOR
 			break;
 		default:
-			Util.writeConsole("Opção Inválida!", 44, "<");
+			Util.writeConsoleError("Opção Inválida!", 44, "<");
 			return;
 		}
 
@@ -687,7 +702,7 @@ public class StartProjetoNext {
 			// »MENU CRIAÇÃO DE CONTA - 0 - VOLTAR AO MENU ANTERIOR
 			break;
 		default:
-			Util.writeConsole("Opção Inválida!", 44, "<");
+			Util.writeConsoleError("Opção Inválida!", 44, "<");
 			return;
 		}
 	}

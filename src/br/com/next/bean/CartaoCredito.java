@@ -8,6 +8,7 @@ public class CartaoCredito extends Cartao {
 	private Double limite;
 	private Double valorFatura;
 	private Date vencimentoFatura;
+	private Apolice apolice;
 
 	public CartaoCredito(Cliente cliente, String senha, Integer diaVencimento) {
 		super(senha, cliente);
@@ -61,6 +62,12 @@ public class CartaoCredito extends Cartao {
 		
 	}
 	
-	
+	public Apolice getApolice() {
+		return apolice;
+	}
+
+	public void setApolice(Integer anosDuracao, TipoSeguro tipoSeguro) {
+		this.apolice = new Apolice(anosDuracao, tipoSeguro);
+	}
 
 }

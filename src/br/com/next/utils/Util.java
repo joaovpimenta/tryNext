@@ -42,8 +42,6 @@ public class Util {
 			typedInt = -1;
 		}
 		
-		
-
 		return typedInt;
 	}
 
@@ -52,9 +50,14 @@ public class Util {
 		Scanner read = new Scanner(System.in);
 		writeConsole(texto, 44, "<");
 		System.out.print("  » ");
-		Integer typedText = read.nextInt();
+		Integer typedInt;
+		try {
+			typedInt = Integer.parseInt(read.nextLine());
+		} catch (Exception e) {
+			typedInt = -1;
+		}
 
-		return typedText;
+		return typedInt;
 	}
 
 	public static Double readConsoleDouble() {
@@ -156,7 +159,7 @@ public class Util {
 		Double larguraDouble = (double) largura;
 		int totalEspacos = (texto.length() % 2 != 0) ? largura-texto.length() + 1 : largura-texto.length();
 		int espacosE = totalEspacos/2;
-		int espacosD = (totalEspacos/2)-1;
+		int espacosD = (texto.length() % 2 != 0) ? (totalEspacos/2)-1 : (totalEspacos/2);
 
 		System.out.print("╔" + repeat(largura + 2, "═", 0, 0) + "╗" + "\n║ ");
 
@@ -210,6 +213,71 @@ public class Util {
 		}
 
 		System.out.println(" ║\n" + "╚" + repeat(largura + 2, "═", 0, 0) + "╝");
+
+	}
+	
+	public static void writeConsoleError(String texto, int largura, String alinhamento) {
+
+		int i = 0;
+		int linhas = 1;
+		largura -= 4;
+		Double larguraDouble = (double) largura;
+		int totalEspacos = (texto.length() % 2 != 0) ? largura-texto.length() + 1 : largura-texto.length();
+		int espacosE = totalEspacos/2;
+		int espacosD = (texto.length() % 2 != 0) ? (totalEspacos/2)-1 : (totalEspacos/2);
+
+		System.err.print("╔" + repeat(largura + 2, "═", 0, 0) + "╗" + "\n║ ");
+
+		if (alinhamento == "<") {
+
+			while (i < texto.length()) {
+
+				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
+					System.err.print(" ║\n║ ");
+					linhas++;
+				}
+
+				System.err.print(texto.charAt(i));
+				i++;
+
+				wait(randInt(10, 20));
+			}
+			System.err.print(repeat(((largura * linhas) - i), " ", 0, 0));
+
+		} else if (alinhamento == "-") {
+			
+			System.err.print(repeat(espacosE, " ", 0, 0));
+			
+			while (i < texto.length()) {
+
+				System.err.print(texto.charAt(i));
+				i++;
+
+				wait(randInt(10, 20));
+			}
+			
+			System.err.print(repeat(espacosD, " ", 0, 0));
+
+		} else {
+
+			System.err.print(repeat(espacosE+espacosD, " ", 0, 0));
+			
+			while (i < texto.length()) {
+
+				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
+					System.err.print(" ║\n║ ");
+					linhas++;
+				}
+
+				System.err.print(texto.charAt(i));
+				i++;
+
+				wait(randInt(10, 20));
+			}
+			System.err.print(repeat(((largura * linhas) - i), " ", 0, 0));
+		}
+
+		System.err.println(" ║\n" + "╚" + repeat(largura + 2, "═", 0, 0) + "╝");
 
 	}
 

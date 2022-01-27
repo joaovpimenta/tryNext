@@ -28,7 +28,6 @@ import br.com.next.utils.Util;
 public class StartProjetoNext {
 
 	public static Map<String, Cliente> mapCliente = new HashMap<String, Cliente>();
-	private static ClienteBO clienteBOJ = new ClienteBO();
 	static ContaBO contaCorrenteBO = null;
 	static ContaBO contaPoupancaBO = null;
 	static ContaBO contaEmUso;
@@ -56,6 +55,8 @@ public class StartProjetoNext {
 
 				List<Conta> listaContas = menuLogin(validacoesBO);
 
+				Util.loading(44);
+				
 				if (contaCorrenteBO != null || contaPoupancaBO != null) {
 
 					while (i != 0) {

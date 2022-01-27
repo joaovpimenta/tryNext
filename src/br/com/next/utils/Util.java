@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -27,9 +26,7 @@ public class Util {
 		writeConsole(texto, 44, "<");
 		System.out.print("  » ");
 		String typedText = read.nextLine();
-
 		return typedText;
-
 	}
 
 	public static Integer readConsoleInt() {
@@ -143,13 +140,10 @@ public class Util {
 			System.out.print(repeat(espacos, " ", 0, 0) + "] " + contadorPorcentagem(porcentagem) + " ║");
 
 			if (quadrados < totalQuadrados) {
-				System.out.print(repeat(largura, "\b", 0, 0));
+				System.out.print(repeat(largura, "\r\b", 0, 0));
 			}
-
 		}
-
 		System.out.println("\n╚" + repeat(largura - 2, "═", 0, 0) + "╝");
-
 	}
 
 	public static void writeConsole(String texto, int largura, String alinhamento) {
@@ -165,34 +159,13 @@ public class Util {
 		System.out.print("╔" + repeat(largura + 2, "═", 0, 0) + "╗" + "\n║ ");
 
 		if (alinhamento == "<") {
-			
+
 			while (i < texto.length()) {
-				
-//				if ((texto.indexOf("\n",i) % 40) == 0) {
-//					texto = texto.replace("\n", " ");
-//				} else {
-					texto = texto.replaceAll("\n", repeat(largura - texto.indexOf("\n"), " ", 0, 0));
-//				}
-				
-				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
-					System.out.print(" ║\n║ ");
-					linhas++;
-				}
-				System.out.print(texto.charAt(i));
-				i++;
-				wait(randInt(10, 20));
-			}
-			System.out.print(repeat(((largura * linhas) - i), " ", 0, 0));	
-			
 
-/*			while (i < texto.length()) {
-				
-				espacosAcrescentados += (linhas > 1) ? (largura * linhas) - (texto.length() - i) : (largura * linhas) - i;
-				texto = texto.replace("\n", repeat(espacosAcrescentados, " ", 0, 0));
+				texto = texto.replaceAll("\n", repeat(largura - texto.indexOf("\n"), " ", 0, 0));
 
 				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
 					System.out.print(" ║\n║ ");
-					i = 0;
 					linhas++;
 				}
 				System.out.print(texto.charAt(i));
@@ -200,7 +173,6 @@ public class Util {
 				wait(randInt(10, 20));
 			}
 			System.out.print(repeat(((largura * linhas) - i), " ", 0, 0));
-*/
 		} else if (alinhamento == "-") {
 
 			System.out.print(repeat(espacosE, " ", 0, 0));
@@ -211,9 +183,7 @@ public class Util {
 				i++;
 				wait(randInt(10, 20));
 			}
-
 			System.out.print(repeat(espacosD, " ", 0, 0));
-
 		} else {
 
 			System.out.print(repeat(espacosE + espacosD, " ", 0, 0));
@@ -249,56 +219,38 @@ public class Util {
 		System.err.print("╔" + repeat(largura + 2, "═", 0, 0) + "╗" + "\n║ ");
 
 		if (alinhamento == "<") {
-
 			while (i < texto.length()) {
-
 				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
 					System.err.print(" ║\n║ ");
 					linhas++;
 				}
-
 				System.err.print(texto.charAt(i));
 				i++;
-
 				wait(randInt(10, 20));
 			}
 			System.err.print(repeat(((largura * linhas) - i), " ", 0, 0));
-
 		} else if (alinhamento == "-") {
-
 			System.err.print(repeat(espacosE, " ", 0, 0));
-
 			while (i < texto.length()) {
-
 				System.err.print(texto.charAt(i));
 				i++;
-
 				wait(randInt(10, 20));
 			}
-
 			System.err.print(repeat(espacosD, " ", 0, 0));
-
 		} else {
-
 			System.err.print(repeat(espacosE + espacosD, " ", 0, 0));
-
 			while (i < texto.length()) {
-
 				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
 					System.err.print(" ║\n║ ");
 					linhas++;
 				}
-
 				System.err.print(texto.charAt(i));
 				i++;
-
 				wait(randInt(10, 20));
 			}
 			System.err.print(repeat(((largura * linhas) - i), " ", 0, 0));
 		}
-
 		System.err.println(" ║\n" + "╚" + repeat(largura + 2, "═", 0, 0) + "╝");
-
 	}
 
 	public static void writeMenu(ArrayList<String> menu, int linhas) {

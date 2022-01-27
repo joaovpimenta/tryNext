@@ -38,7 +38,7 @@ public class ContaBO {
 
 		DataBase.setContaDB(conta.getNumeroConta(), conta);
 
-		String mensagem = "O número da sua conta é: " + conta.getNumeroConta() + "          E o tipo é: "
+		String mensagem = conta.getCliente().getNome() + " o número da sua conta é:\n" + conta.getNumeroConta() + " E o tipo é: "
 				+ conta.getTipoConta().toString();
 
 		Util.writeConsole(mensagem, 44, "<");

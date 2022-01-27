@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -41,7 +42,7 @@ public class Util {
 		} catch (Exception e) {
 			typedInt = -1;
 		}
-		
+
 		return typedInt;
 	}
 
@@ -126,7 +127,7 @@ public class Util {
 		return retornoString;
 	}
 
-/*	public static void loading(int largura) {
+	public static void loading(int largura) {
 
 		int totalQuadrados = largura - 23;
 
@@ -138,7 +139,7 @@ public class Util {
 			Integer espacos = totalQuadrados - quadrados;
 
 			System.out.print((porcentagem < 100) ? "║ Carregando: [" : "║ Concluído:  [");
-			System.out.print(repeat(quadrados, "■", 5, 25));
+			System.out.print(repeat(quadrados, "■", 0, 10));
 			System.out.print(repeat(espacos, " ", 0, 0) + "] " + contadorPorcentagem(porcentagem) + " ║");
 
 			if (quadrados < totalQuadrados) {
@@ -150,53 +151,73 @@ public class Util {
 		System.out.println("\n╚" + repeat(largura - 2, "═", 0, 0) + "╝");
 
 	}
-*/
+
 	public static void writeConsole(String texto, int largura, String alinhamento) {
 
 		int i = 0;
 		int linhas = 1;
 		largura -= 4;
 		Double larguraDouble = (double) largura;
-		int totalEspacos = (texto.length() % 2 != 0) ? largura-texto.length() + 1 : largura-texto.length();
-		int espacosE = totalEspacos/2;
-		int espacosD = (texto.length() % 2 != 0) ? (totalEspacos/2)-1 : (totalEspacos/2);
+		int totalEspacos = (texto.length() % 2 != 0) ? largura - texto.length() + 1 : largura - texto.length();
+		int espacosE = totalEspacos / 2;
+		int espacosD = (texto.length() % 2 != 0) ? (totalEspacos / 2) - 1 : (totalEspacos / 2);
 
 		System.out.print("╔" + repeat(largura + 2, "═", 0, 0) + "╗" + "\n║ ");
 
 		if (alinhamento == "<") {
-
+			
 			while (i < texto.length()) {
-
+				
+//				if ((texto.indexOf("\n",i) % 40) == 0) {
+//					texto = texto.replace("\n", " ");
+//				} else {
+					texto = texto.replaceAll("\n", repeat(largura - texto.indexOf("\n"), " ", 0, 0));
+//				}
+				
 				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
 					System.out.print(" ║\n║ ");
 					linhas++;
 				}
-
 				System.out.print(texto.charAt(i));
 				i++;
+				wait(randInt(10, 20));
+			}
+			System.out.print(repeat(((largura * linhas) - i), " ", 0, 0));	
+			
 
+/*			while (i < texto.length()) {
+				
+				espacosAcrescentados += (linhas > 1) ? (largura * linhas) - (texto.length() - i) : (largura * linhas) - i;
+				texto = texto.replace("\n", repeat(espacosAcrescentados, " ", 0, 0));
+
+				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
+					System.out.print(" ║\n║ ");
+					i = 0;
+					linhas++;
+				}
+				System.out.print(texto.charAt(i));
+				i++;
 				wait(randInt(10, 20));
 			}
 			System.out.print(repeat(((largura * linhas) - i), " ", 0, 0));
-
+*/
 		} else if (alinhamento == "-") {
-			
+
 			System.out.print(repeat(espacosE, " ", 0, 0));
-			
+
 			while (i < texto.length()) {
 
 				System.out.print(texto.charAt(i));
 				i++;
-
 				wait(randInt(10, 20));
 			}
-			
+
 			System.out.print(repeat(espacosD, " ", 0, 0));
 
 		} else {
 
-			System.out.print(repeat(espacosE+espacosD, " ", 0, 0));
-			
+			System.out.print(repeat(espacosE + espacosD, " ", 0, 0));
+
 			while (i < texto.length()) {
 
 				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
@@ -206,7 +227,6 @@ public class Util {
 
 				System.out.print(texto.charAt(i));
 				i++;
-
 				wait(randInt(10, 20));
 			}
 			System.out.print(repeat(((largura * linhas) - i), " ", 0, 0));
@@ -215,16 +235,16 @@ public class Util {
 		System.out.println(" ║\n" + "╚" + repeat(largura + 2, "═", 0, 0) + "╝");
 
 	}
-	
+
 	public static void writeConsoleError(String texto, int largura, String alinhamento) {
 
 		int i = 0;
 		int linhas = 1;
 		largura -= 4;
 		Double larguraDouble = (double) largura;
-		int totalEspacos = (texto.length() % 2 != 0) ? largura-texto.length() + 1 : largura-texto.length();
-		int espacosE = totalEspacos/2;
-		int espacosD = (texto.length() % 2 != 0) ? (totalEspacos/2)-1 : (totalEspacos/2);
+		int totalEspacos = (texto.length() % 2 != 0) ? largura - texto.length() + 1 : largura - texto.length();
+		int espacosE = totalEspacos / 2;
+		int espacosD = (texto.length() % 2 != 0) ? (totalEspacos / 2) - 1 : (totalEspacos / 2);
 
 		System.err.print("╔" + repeat(largura + 2, "═", 0, 0) + "╗" + "\n║ ");
 
@@ -245,9 +265,9 @@ public class Util {
 			System.err.print(repeat(((largura * linhas) - i), " ", 0, 0));
 
 		} else if (alinhamento == "-") {
-			
+
 			System.err.print(repeat(espacosE, " ", 0, 0));
-			
+
 			while (i < texto.length()) {
 
 				System.err.print(texto.charAt(i));
@@ -255,13 +275,13 @@ public class Util {
 
 				wait(randInt(10, 20));
 			}
-			
+
 			System.err.print(repeat(espacosD, " ", 0, 0));
 
 		} else {
 
-			System.err.print(repeat(espacosE+espacosD, " ", 0, 0));
-			
+			System.err.print(repeat(espacosE + espacosD, " ", 0, 0));
+
 			while (i < texto.length()) {
 
 				if ((i > 0) ? ((i / largura) - (i / larguraDouble) == 0) ? true : false : false) {
@@ -282,11 +302,11 @@ public class Util {
 	}
 
 	public static void writeMenu(ArrayList<String> menu, int linhas) {
-		
+
 		for (int x = 0; x < menu.size(); x++)
-		
-		Util.writeConsole(menu.get(x), 44, ">");
-		
-		}
+
+			Util.writeConsole(menu.get(x), 44, ">");
+
+	}
 
 }

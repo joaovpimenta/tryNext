@@ -20,6 +20,7 @@ import br.com.next.bo.CartaoDebitoBO;
 import br.com.next.bo.ClienteBO;
 import br.com.next.bo.ContaBO;
 import br.com.next.bo.ValidacoesBO;
+import br.com.next.utils.ContasExemplo;
 import br.com.next.utils.DataBase;
 import br.com.next.utils.Menu;
 import br.com.next.utils.Util;
@@ -30,20 +31,17 @@ public class StartProjetoNext {
 	private static ClienteBO clienteBOJ = new ClienteBO();
 	static ContaBO contaCorrenteBO = null;
 	static ContaBO contaPoupancaBO = null;
-	static ContaBO contaMovimentada;
+	static ContaBO contaEmUso;
 	static String loginCpf = "-";
 	static int i = -1;
-	static Endereco enderecoJ = new Endereco("Avenida Afonso Pena", "3451", "30110-028", "Centro", "Belo Horizonte",
-			"MG");
-	static Cliente clienteJ = clienteBOJ.cadastrarCliente("12345678912", "João Victor",
-			Util.readConsoleData("16/07/1996"), enderecoJ, "1234");
-	static ContaBO contaCorrenteBOJ = new ContaBO(clienteJ, TipoConta.CORRENTE);
-	static ContaBO contaPoupancaBOJ = new ContaBO(clienteJ, TipoConta.POUPANCA);
 
 	public static void main(String[] args) {
 
 		ValidacoesBO validacoesBO = new ValidacoesBO();
 		DataBase.setListaSeguros();
+		ContasExemplo.abreContas();
+
+		Util.loading(44);
 
 		while (i != 0) {
 
@@ -89,9 +87,9 @@ public class StartProjetoNext {
 								case 2:
 									// »MENU III - TRANSAÇÕES - 2 - REALIZAR SAQUE
 									definirContaDaOperacao();
-									
+
 									Double valorSaque = Util.readConsoleDouble("Qual o valor do saque?");
-									contaMovimentada.sacar(valorSaque);
+									contaEmUso.sacar(valorSaque);
 
 									continue;
 								case 3:
@@ -99,12 +97,12 @@ public class StartProjetoNext {
 									contaDestino = DataBase.getContaDB(
 											Util.readConsoleInt("Informe a conta para qual deseja transferir:"));
 									if (contaDestino != null) {
-										
+
 										if (contaDestino.getNumeroConta() != null) {
 											Double valor = Util.readConsoleDouble("Qual o valor da transferência?");
 
 											definirContaDaOperacao();
-											contaMovimentada.transferir(contaDestino, valor);
+											contaEmUso.transferir(contaDestino, valor);
 
 										}
 									}
@@ -132,20 +130,20 @@ public class StartProjetoNext {
 							case 1:
 								// »MENU PIX - 3 - CONSULTAR CHAVE
 								definirContaDaOperacao();
-								if (contaMovimentada != null) {
+								if (contaEmUso != null) {
 									try {
-										Util.writeConsole(contaMovimentada.getChavePix(), 44, "-");
+										Util.writeConsole(contaEmUso.getChavePix(), 44, "-");
 									} catch (Exception e) {
 										Util.writeConsole("Nenhuma chave cadastrada para essa conta", 44, "-");
 									}
 								}
-								
+
 								continue;
 							case 2:
 								// »MENU PIX - 3 - CADASTRAR PIX
 								cadastroPix(validacoesBO);
 								continue;
-							case 3: 
+							case 3:
 								// »MENU PIX - 3 - TRANSFERIR VIA PIX
 
 								String chavePix = Util.readConsole("Informe a chave Pix:");
@@ -157,7 +155,7 @@ public class StartProjetoNext {
 									continue;
 								}
 
-								contaMovimentada.transferirViaPix(contaDestino, valorPix);
+								contaEmUso.transferirViaPix(contaDestino, valorPix);
 
 								continue;
 							case 0:
@@ -183,91 +181,104 @@ public class StartProjetoNext {
 
 							switch (i) {
 							case 1: // »MENU ÁREA DE CARTÕES - 1 - CARTÃO DE CRÉDITO
-								
+
 								definirContaDaOperacao();
 
-								cartaoCreditoEmUso = contaMovimentada.getConta().getCartaoCredito();
+								cartaoCreditoEmUso = contaEmUso.getConta().getCartaoCredito();
 
-								if (cartaoCreditoEmUso == null) {
-									Util.writeConsole("Você não tem um cartão de crédito", 44, "-");
-									i = -1;
-								} else {
-									Menu.menuCartaoCredito();
-									i = Util.readConsoleInt();
-								}
-								
-								switch (i) {
-								case 1: // »MENU CARTÃO DE CRÉDITO - 1 - COMPRA COM CRÉDITO
-									
-									
-									String nomeProduto = Util.readConsole("Qual nome do produto?");
-									String descricao = Util.readConsole("Descrição da compra");
-									Double valorCompra = Util.readConsoleDouble("Preço do produto?");
+								while (i != 0) {
 
-									String dataDaCompra = "";
-									while (validacoesBO.validaData(dataDaCompra)) {
-										dataDaCompra = Util.readConsole("Qual a data da compra?");
+									if (cartaoCreditoEmUso == null) {
+										Util.writeConsoleError("Você não tem um cartão de crédito", 44, "-");
+										i = -1;
+									} else {
+										Menu.menuCartaoCredito();
+										i = Util.readConsoleInt();
 									}
-									Date dataCompra = Util.readConsoleData(dataDaCompra);
-									
-									CartaoCreditoBO cartaoCreditoBO = new CartaoCreditoBO(cartaoCreditoEmUso);
-									
-									String mensagem = (cartaoCreditoBO.novaCompra(dataCompra, valorCompra, descricao,
-											nomeProduto, contaMovimentada))
-													? "Compra efetuada com sucesso!" : "Compra não foi efetuada!";
-									Util.writeConsole(mensagem, 44, "-");
 
-									continue;
-								case 2:// »MENU CARTÃO DE CRÉDITO - 2 - CONSULTAR FATURA
-									Util.writeConsole(cartaoCreditoEmUso.gerarFatura(), 44, "<");
+									switch (i) {
+									case 1: // »MENU CARTÃO DE CRÉDITO - 1 - COMPRA COM CRÉDITO
 
-									continue;
-								case 3:// »MENU CARTÃO DE CRÉDITO - 3 - SOLICITAR AUMENTO DO LIMITE
-									Double limiteAntigo = cartaoCreditoEmUso.getLimite();
-									cartaoCreditoEmUso.setLimiteInicio(contaMovimentada.getCliente());
-									Double limiteAtual = cartaoCreditoEmUso.getLimite();
+										String nomeProduto = Util.readConsole("Qual nome do produto?");
+										String descricao = Util.readConsole("Descrição da compra");
+										Double valorCompra = Util.readConsoleDouble("Preço do produto?");
 
-									mensagem = (limiteAtual != limiteAntigo)
-											? "Solicitação de limite recebida. Seu novo limite é: " + limiteAtual
-											: "Infelizmente não foi possivel aumentar se limite. Seu limite atual é:"
-													+ limiteAntigo;
-									Util.writeConsole(mensagem, 44, "<");
+										String dataDaCompra = "";
+										while (validacoesBO.validaData(dataDaCompra)) {
+											dataDaCompra = Util.readConsole("Qual a data da compra?");
+										}
+										Date dataCompra = Util.readConsoleData(dataDaCompra);
 
-									continue;
-								case 4:// »MENU CARTÃO DE CRÉDITO - 4 - BLOQUEAR CARTÃO
-									cartaoCreditoEmUso.setIsAtivo();
-									Boolean isAtivo = cartaoCreditoEmUso.getIsAtivo();
-									mensagem = (isAtivo) ? "Status do cartao: Ativo" : "Status do cartao: Inativo";
-									Util.writeConsole(mensagem, 44, "<");
+										CartaoCreditoBO cartaoCreditoBO = new CartaoCreditoBO(cartaoCreditoEmUso);
 
-									continue;
-								case 5:// »MENU CARTÃO DE CRÉDITO - 5 - CONTRATAR SEGURO
-									Menu.menuSeguros();
-									i = Util.readConsoleInt();
-									
-									if (i == 4) {
-									Util.writeConsole(cartaoCreditoEmUso.getApolice().getSeguro().getRegra(), 44, "<");
-									continue;
+										String mensagem = (cartaoCreditoBO.novaCompra(dataCompra, valorCompra,
+												descricao, nomeProduto, contaEmUso)) ? "Compra efetuada com sucesso!"
+														: "Compra não foi efetuada!";
+										Util.writeConsole(mensagem, 44, "-");
+
+										continue;
+									case 2:// »MENU CARTÃO DE CRÉDITO - 2 - CONSULTAR FATURA
+										Util.writeConsole(cartaoCreditoEmUso.gerarFatura(), 44, "<");
+
+										continue;
+									case 3:// »MENU CARTÃO DE CRÉDITO - 3 - SOLICITAR AUMENTO DO LIMITE
+										Double limiteAntigo = cartaoCreditoEmUso.getLimite();
+										cartaoCreditoEmUso.setLimiteInicio(contaEmUso.getCliente());
+										Double limiteAtual = cartaoCreditoEmUso.getLimite();
+
+										mensagem = (limiteAtual != limiteAntigo)
+												? "Solicitação de limite recebida. Seu novo limite é: " + limiteAtual
+												: "Infelizmente não foi possivel aumentar se limite. Seu limite atual é:"
+														+ limiteAntigo;
+										Util.writeConsole(mensagem, 44, "<");
+
+										continue;
+									case 4:// »MENU CARTÃO DE CRÉDITO - 4 - BLOQUEAR CARTÃO
+										cartaoCreditoEmUso.setIsAtivo();
+										Boolean isAtivo = cartaoCreditoEmUso.getIsAtivo();
+										mensagem = (isAtivo) ? "Status do cartao: Ativo" : "Status do cartao: Inativo";
+										Util.writeConsole(mensagem, 44, "<");
+
+										continue;
+									case 5:// »MENU CARTÃO DE CRÉDITO - 5 - CONTRATAR SEGURO
+										Menu.menuSeguros();
+										i = Util.readConsoleInt();
+
+										if (i == 4) {
+											try {
+												Util.writeConsole(
+														cartaoCreditoEmUso.getApolice().getSeguro().getRegra(), 44,
+														"<");
+											} catch (Exception e) {
+												Util.writeConsoleError("Opção Inválida: Você não possui Apólices", 44,
+														"-");
+											}
+
+											continue;
+										}
+
+										TipoSeguro tipoSeguro = (i == 1) ? TipoSeguro.MORTE
+												: (i == 2) ? TipoSeguro.INVALIDEZ : TipoSeguro.DESEMPREGO;
+										Integer anosDuracao = Util
+												.readConsoleInt("Por quantos anos deseja contratar o seguro?");
+										cartaoCreditoEmUso.setApolice(anosDuracao, tipoSeguro);
+
+										continue;
+									case 0:
+										// »MENU CARTÃO DE CRÉDITO - 0 - VOLTAR AO MENU ANTERIOR
+										break;
+									default:
+										Util.writeConsoleError("Opção Inválida!", 44, "<");
+										continue;
 									}
-									
-									TipoSeguro tipoSeguro = (i == 1) ? TipoSeguro.MORTE : (i == 2) ? TipoSeguro.INVALIDEZ : TipoSeguro.DESEMPREGO;
-									Integer anosDuracao = Util.readConsoleInt("Por quantos anos deseja contratar o seguro?");
-									cartaoCreditoEmUso.setApolice(anosDuracao, tipoSeguro);
-									continue;
-								case 0:
-									// »MENU CARTÃO DE CRÉDITO - 0 - VOLTAR AO MENU ANTERIOR
-									break;
-								default:
-									Util.writeConsoleError("Opção Inválida!", 44, "<");
-									continue;
-								}
 
+								}
 								continue;
 							case 2: // »MENU ÁREA DE CARTÕES - 2 - CARTÃO DE DÉBITO
-								
+
 								definirContaDaOperacao();
 
-								cartaoDebitoEmUso = contaMovimentada.getConta().getCartaoDebito();
+								cartaoDebitoEmUso = contaEmUso.getConta().getCartaoDebito();
 
 								if (cartaoDebitoEmUso == null) {
 									Util.writeConsole("Você não tem um cartão de débito", 44, "-");
@@ -276,14 +287,14 @@ public class StartProjetoNext {
 									Menu.menuCartaoDebito();
 									i = Util.readConsoleInt();
 								}
-								
+
 								if (i == 0) {
 									break;
 								}
-								
+
 								switch (i) {
 								case 1: // »MENU CARTÃO DE DÉBITO - 1 - COMPRA COM DÉBITO
-									
+
 									String nomeProduto = Util.readConsole("Qual nome do produto?");
 									String descricao = Util.readConsole("Descrição da compra");
 									Double valorCompra = Util.readConsoleDouble("Preço do produto?");
@@ -293,12 +304,12 @@ public class StartProjetoNext {
 										dataDaCompra = Util.readConsole("Qual a data da compra?");
 									}
 									Date dataCompra = Util.readConsoleData(dataDaCompra);
-									
+
 									CartaoDebitoBO cartaoDebitoBO = new CartaoDebitoBO(cartaoDebitoEmUso);
-									
+
 									String mensagem = (cartaoDebitoBO.novaCompra(dataCompra, valorCompra, descricao,
-											nomeProduto, contaMovimentada))
-													? "Compra efetuada com sucesso!" : "Compra não foi efetuada!";
+											nomeProduto, contaEmUso)) ? "Compra efetuada com sucesso!"
+													: "Compra não foi efetuada!";
 									Util.writeConsole(mensagem, 44, "-");
 
 									continue;
@@ -306,16 +317,19 @@ public class StartProjetoNext {
 									Util.writeConsole(cartaoDebitoEmUso.gerarFatura(), 44, "<");
 									continue;
 								case 3: // »MENU CARTÃO DE DÉBITO - 3 - ALTERAR LIMITE POR TRANSAÇÃO
-									Double novoLimiteTransacao = Util.readConsoleDouble("Insira o limite por transação desejado:");
+									Double novoLimiteTransacao = Util
+											.readConsoleDouble("Insira o limite por transação desejado:");
 									cartaoDebitoEmUso.setLimiteTransacao(novoLimiteTransacao);
 
-									mensagem = "Solicitação de alteração de limite recebida. Seu novo limite é: R$" + cartaoDebitoEmUso.getLimiteTransacao();
+									mensagem = "Solicitação de alteração de limite recebida. Seu novo limite é: R$"
+											+ cartaoDebitoEmUso.getLimiteTransacao();
 									Util.writeConsole(mensagem, 44, "<");
 
 									continue;
 								case 4: // »MENU CARTÃO DE DÉBITO - 4 - BLOQUEAR CARTÃO
 									cartaoDebitoEmUso.setIsAtivo();
-									mensagem = (cartaoDebitoEmUso.getIsAtivo()) ? "Status do cartao: Ativo" : "Status do cartao: Inativo";
+									mensagem = (cartaoDebitoEmUso.getIsAtivo()) ? "Status do cartao: Ativo"
+											: "Status do cartao: Inativo";
 									Util.writeConsole(mensagem, 44, "<");
 
 									continue;
@@ -329,11 +343,11 @@ public class StartProjetoNext {
 
 								continue;
 							case 3: // »MENU ÁREA DE CARTÕES - 3 - SOLICITAR CARTÃO
-								
+
 								definirContaDaOperacao();
-								
-								Cliente clienteDoCartao = contaMovimentada.getCliente();
-								
+
+								Cliente clienteDoCartao = contaEmUso.getCliente();
+
 								Menu.menuSolicitarCartao();
 								i = Util.readConsoleInt();
 
@@ -344,7 +358,7 @@ public class StartProjetoNext {
 								switch (i) {
 								case 1: // »MENU SOLICITAR CARTÃO - 1 - CARTÃO DE CRÉDITO
 
-									cartaoCreditoEmUso = contaMovimentada.getConta().getCartaoCredito();
+									cartaoCreditoEmUso = contaEmUso.getConta().getCartaoCredito();
 
 									if (cartaoCreditoEmUso != null) {
 										Util.writeConsole("Você já tem um cartão de Crédito!", 44, "<");
@@ -378,13 +392,13 @@ public class StartProjetoNext {
 										CartaoCreditoBO cartaoCreditoBO = new CartaoCreditoBO(clienteDoCartao,
 												senhaCartao, diaVencimento);
 										cartaoCreditoEmUso = cartaoCreditoBO.getCartaoCredito();
-										contaMovimentada.adicionarCartaoCredito(cartaoCreditoEmUso);
+										contaEmUso.adicionarCartaoCredito(cartaoCreditoEmUso);
 									}
 
 									continue;
 								case 2: // »MENU SOLICITAR CARTÃO - 2 - CARTÃO DE DÉBITO
 
-									CartaoDebito CartaoDebitoExistente = contaMovimentada.getConta().getCartaoDebito();
+									CartaoDebito CartaoDebitoExistente = contaEmUso.getConta().getCartaoDebito();
 
 									if (CartaoDebitoExistente != null) {
 										Util.writeConsole("Você já tem um cartão de Débito!", 44, "<");
@@ -400,7 +414,7 @@ public class StartProjetoNext {
 											CartaoDebitoBO cartaoDebitoBO = new CartaoDebitoBO(clienteDoCartao,
 													senhaCartao, limiteTransacao);
 											cartaoDebitoEmUso = cartaoDebitoBO.getCartaoDebito();
-											contaMovimentada.adicionarCartaoDebito(cartaoDebitoEmUso);
+											contaEmUso.adicionarCartaoDebito(cartaoDebitoEmUso);
 
 										}
 									}
@@ -520,14 +534,14 @@ public class StartProjetoNext {
 			int escolhaConta = Util
 					.readConsoleInt("De qual conta deseja realizar operação? (1 - CORRENTE, 2 - POUPANÇA)");
 			if (escolhaConta == 1) {
-				contaMovimentada = contaCorrenteBO;
+				contaEmUso = contaCorrenteBO;
 			} else {
-				contaMovimentada = contaPoupancaBO;
+				contaEmUso = contaPoupancaBO;
 			}
 		} else if (contaCorrenteBO != null) {
-			contaMovimentada = contaCorrenteBO;
+			contaEmUso = contaCorrenteBO;
 		} else {
-			contaMovimentada = contaPoupancaBO;
+			contaEmUso = contaPoupancaBO;
 		}
 	}
 
@@ -547,7 +561,7 @@ public class StartProjetoNext {
 			}
 			pix.setTipoChavePix(TipoChavePix.CPF);
 			pix.setValorChave(chaveCpf);
-			contaMovimentada.adicionarPix(pix);
+			contaEmUso.adicionarPix(pix);
 			return;
 		case 2: // »MENU CADASTRO CHAVE - 2 - EMAIL
 			String chaveEmail = "-";
@@ -556,7 +570,7 @@ public class StartProjetoNext {
 			}
 			pix.setTipoChavePix(TipoChavePix.EMAIL);
 			pix.setValorChave(chaveEmail);
-			contaMovimentada.adicionarPix(pix);
+			contaEmUso.adicionarPix(pix);
 			return;
 		case 3: // »MENU CADASTRO CHAVE - 3 - TELEFONE
 			String chaveTelefone = "-";
@@ -565,13 +579,13 @@ public class StartProjetoNext {
 			}
 			pix.setTipoChavePix(TipoChavePix.TELEFONE);
 			pix.setValorChave(chaveTelefone);
-			contaMovimentada.adicionarPix(pix);
+			contaEmUso.adicionarPix(pix);
 			return;
 		case 4: // »MENU CADASTRO CHAVE - 4 - ALEATÓRIO
 			String chaveAleatoria = UUID.randomUUID().toString();
 			pix.setTipoChavePix(TipoChavePix.ALEATORIO);
 			pix.setValorChave(chaveAleatoria);
-			contaMovimentada.adicionarPix(pix);
+			contaEmUso.adicionarPix(pix);
 			return;
 		case 0:
 			// »MENU CADASTRO CHAVE - 0 - VOLTAR AO MENU ANTERIOR
@@ -581,7 +595,6 @@ public class StartProjetoNext {
 			return;
 		}
 
-		
 		i = -1;
 	}
 
